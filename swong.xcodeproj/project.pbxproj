@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8766E478198915C700CE08CB /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 8766E477198915C700CE08CB /* ball.png */; };
 		879F59451987FE2C0020A1B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F59441987FE2C0020A1B9 /* AppDelegate.swift */; };
 		879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 879F59461987FE2C0020A1B9 /* GameScene.sks */; };
 		879F59491987FE2C0020A1B9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F59481987FE2C0020A1B9 /* GameScene.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8766E477198915C700CE08CB /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		879F593F1987FE2C0020A1B9 /* swong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879F59431987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		879F59441987FE2C0020A1B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 		879F59421987FE2C0020A1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8766E477198915C700CE08CB /* ball.png */,
 				879F59431987FE2C0020A1B9 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -197,6 +200,7 @@
 			files = (
 				879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */,
 				879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */,
+				8766E478198915C700CE08CB /* ball.png in Resources */,
 				879F594E1987FE2C0020A1B9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +338,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = swong/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -345,6 +350,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = swong/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -403,6 +409,7 @@
 				879F59611987FE2C0020A1B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		879F59621987FE2C0020A1B9 /* Build configuration list for PBXNativeTarget "swongTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +418,7 @@
 				879F59641987FE2C0020A1B9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

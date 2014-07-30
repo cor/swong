@@ -9,7 +9,6 @@
 import UIKit
 import SpriteKit
 
-
 extension SKNode {
     class func unarchiveFromFile(file : NSString) -> SKNode? {
         
@@ -27,7 +26,8 @@ extension SKNode {
 
 class GameViewController: UIViewController {
 
-    //true = show fps and node count, false = don't show fps and node count
+    //true  -> show fps and node count,
+    //false -> don't show fps and node count
     let showdata = true
     
     override func viewDidLoad() {
@@ -43,10 +43,15 @@ class GameViewController: UIViewController {
             skView.ignoresSiblingOrder = true
             
             /* Set the scale mode to scale to fit the window */
-            scene.scaleMode = .AspectFill
+            scene.scaleMode = .Fill
             
             skView.presentScene(scene)
         }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        
+        
     }
 
     override func shouldAutorotate() -> Bool {

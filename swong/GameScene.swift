@@ -12,6 +12,7 @@ class GameScene: SKScene {
     
     let ball = SKSpriteNode(imageNamed: "ball")
     let gamenameLabel = SKLabelNode(fontNamed:"Helvetica")
+    let movespeed = 0.0005
 
     
     override func didMoveToView(view: SKView) {
@@ -31,27 +32,18 @@ class GameScene: SKScene {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
-        
-        
-        
-        
-        
-        
-//        for touch: AnyObject in touches {
-//            let location = touch.locationInNode(self)
-//            
-//            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-//            
-//            sprite.xScale = 0.5
-//            sprite.yScale = 0.5
-//            sprite.position = location
-//            
-//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//            sprite.runAction(SKAction.repeatActionForever(action))
-//            
-//            self.addChild(sprite)
-//        }
+       
+        for touch: AnyObject in touches {
+            let taplocaltion = touch.locationInNode(self)
+            self.ball.runAction(SKAction.moveTo(taplocaltion, duration: movespeed))
+        }
+    }
+    
+    override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
+        for touch: AnyObject in touches {
+            let taplocaltion = touch.locationInNode(self)
+            self.ball.runAction(SKAction.moveTo(taplocaltion, duration: movespeed))
+        }
     }
    
     override func update(currentTime: CFTimeInterval) {

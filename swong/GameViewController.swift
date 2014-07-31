@@ -29,7 +29,7 @@ class GameViewController: UIViewController {
 
     //true  -> show fps and node count,
     //false -> don't show fps and node count
-    let showdata = true
+    let showdata = false
     
     override func viewDidLoad() {
         super.viewDidLoad()

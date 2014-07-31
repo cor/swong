@@ -28,42 +28,49 @@ class GameScene: SKScene {
 
         
         //SCENE (SELF)
-        self.backgroundColor        = SKColor(red: 0.31, green: 0.39, blue: 0.4, alpha: 1)
-        self.scaleMode              = SKSceneScaleMode.Fill
-        self.physicsBody            = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        self.backgroundColor            = SKColor(red: 0.31, green: 0.39, blue: 0.4, alpha: 1)
+        self.scaleMode                  = SKSceneScaleMode.Fill
+        self.physicsBody                = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        self.physicsBody.dynamic        = false
+        self.physicsBody.friction       = 0
+        self.physicsWorld.gravity       = CGVectorMake(0, 0)
         
-        //NAME LABEL
-        gamenameLabel.text          = "Swong"
-        gamenameLabel.fontSize      = 65
-        gamenameLabel.position      = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        gamenameLabel.zPosition     = -10
-        self.addChild(gamenameLabel)
         
         // BALL
-        ball.size                   = CGSizeMake(50, 50)
-        ball.position               = CGPointMake(self.frame.midX, self.frame.midY)
-        ball.physicsBody            = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
-        ball.physicsBody.dynamic    = true
-        
+        ball.size                       = CGSizeMake(25, 25)
+        ball.position                   = CGPointMake(self.frame.midX, self.frame.midY)
+        ball.physicsBody                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
+        ball.physicsBody.dynamic        = true
+        ball.physicsBody.allowsRotation = false
+        ball.physicsBody.linearDamping  = 0
+        ball.physicsBody.velocity       = CGVectorMake(30, 0)
         
         self.addChild(ball)
         
         //DEVBOX
-        devbox.size                 = CGSizeMake(150, 150)
-        devbox.position             = CGPointMake(self.frame.midX + 0.25 * self.frame.width, self.frame.midY)
-        devbox.physicsBody          = SKPhysicsBody(rectangleOfSize: devbox.size)
-        devbox.physicsBody.dynamic  = false
-        devbox.physicsBody.mass     = 0
+        devbox.size                     = CGSizeMake(75, 75)
+        devbox.position                 = CGPointMake(self.frame.midX + 0.25 * self.frame.width, self.frame.midY)
+        devbox.physicsBody              = SKPhysicsBody(rectangleOfSize: devbox.size)
+        devbox.physicsBody.dynamic      = false
+        devbox.physicsBody.mass         = 0
         self.addChild(devbox)
         
+        
+        //NAME LABEL
+        gamenameLabel.text              = "Swong"
+        gamenameLabel.fontSize          = 30
+        gamenameLabel.position          = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        gamenameLabel.zPosition         = -10
+        self.addChild(gamenameLabel)
+        
         // DEBUG LABEL
-        debugLabel.text = "x: \(ball.position.x), y: \(ball.position.y)"
-        debugLabel.fontSize = 40
-        debugLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:(CGRectGetMidY(self.frame) - 50 ))
-        debugLabel.zPosition = -10
+        debugLabel.text                 = "x: \(ball.position.x), y: \(ball.position.y)"
+        debugLabel.fontSize             = 20
+        debugLabel.position             = CGPoint(x:CGRectGetMidX(self.frame), y:(CGRectGetMidY(self.frame) - 25 ))
+        debugLabel.zPosition            = -10
         self.addChild(debugLabel)
         
-        println("SELF.FRAME H:\(self.frame.height), W: \(self.frame.width), S: \(self.size)")
+        println("SELF.FRAME H:\(self.frame.height), W: \(self.frame.width)")
         
         
     }
@@ -72,8 +79,14 @@ class GameScene: SKScene {
         /* Called when a touch begins */
        
         for touch: AnyObject in touches {
-            let taplocation = touch.locationInNode(self)
-            self.ball.runAction(SKAction.moveTo(taplocation, duration: movespeed))
+//            
+//            let moveVector = CGVectorMake(20, 0)
+//            let moveAction = SKAction.moveBy(moveVector, duration: 2)
+////            ball.
+//            ball.runAction(moveAction)
+            
+////            teleport ball to tap location:
+//            self.ball.runAction(SKAction.moveTo(touch.locationInNode(self), duration: movespeed))
         }
     }
     
@@ -89,67 +102,7 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         self.debugLabel.text = "x: \(Int(self.ball.position.x)) y: \(Int(self.ball.position.y))"
 
-        
-//        var delta: CFTimeInterval = currentTime - lastUpdateTimeInterval
-//        
-//        lastUpdateTimeInterval = currentTime;
-//        
-////        if (delta > 1.0) {
-////            delta = minTimeInterval;
-////        }
-//        
-//        updateWithTimeSinceLastUpdate(delta)
     }
+    
 
-    
-    
-    
-    
-//    func updateWithTimeSinceLastUpdate(timeSinceLastUpdate: CFTimeInterval) {
-//        
-//            if self.ball.position.x > self.frame.width - 0.5 * self.ball.size.width {
-//                self.currentDirection.dx *= -1
-//                
-//                self.ball.runAction(SKAction.moveByX(-20, y: self.currentDirection.dy, duration: 0))
-//                
-//            }
-//            
-//            if self.ball.position.x < 0.5 * self.ball.size.width {
-//                self.currentDirection.dx *= -1
-//                
-//                self.ball.runAction(SKAction.moveByX(20, y: self.currentDirection.dy, duration: 0))
-//                
-//            }
-//            
-//            if self.ball.position.y > self.frame.height - 0.5 * self.ball.size.width {
-//                self.currentDirection.dy *= -1
-//                
-//                self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: -20, duration: 0))
-//                
-//            }
-//            
-//            if self.ball.position.y < 0.5 * self.ball.size.height {
-//                self.currentDirection.dy *= -1
-//                
-//                
-//                
-//                self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: 20, duration: 0))
-//            }
-//            
-//        
-//            let move =   SKAction.moveBy(currentDirection, duration: movespeed * timeSinceLastUpdate)
-//            self.ball.runAction(move)
-//        
-//        
-//            self.debugLabel.text = "x: \(Int(self.ball.position.x)) y: \(Int(self.ball.position.y))"
-//        
-//    }
 }
-
-
-
-
-
-
-
-

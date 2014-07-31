@@ -16,6 +16,7 @@
 		879F594E1987FE2C0020A1B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 879F594C1987FE2C0020A1B9 /* Main.storyboard */; };
 		879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879F594F1987FE2C0020A1B9 /* Images.xcassets */; };
 		879F595C1987FE2C0020A1B9 /* swongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F595B1987FE2C0020A1B9 /* swongTests.swift */; };
+		87B00EDD198ADC5000B566CC /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B00EDC198ADC5000B566CC /* paddle.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		879F59551987FE2C0020A1B9 /* swongTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swongTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		879F595A1987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		879F595B1987FE2C0020A1B9 /* swongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swongTests.swift; sourceTree = "<group>"; };
+		87B00EDC198ADC5000B566CC /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,8 +85,8 @@
 		879F59411987FE2C0020A1B9 /* swong */ = {
 			isa = PBXGroup;
 			children = (
-				879F59441987FE2C0020A1B9 /* AppDelegate.swift */,
 				879F59461987FE2C0020A1B9 /* GameScene.sks */,
+				879F59441987FE2C0020A1B9 /* AppDelegate.swift */,
 				879F59481987FE2C0020A1B9 /* GameScene.swift */,
 				879F594A1987FE2C0020A1B9 /* GameViewController.swift */,
 				879F594C1987FE2C0020A1B9 /* Main.storyboard */,
@@ -97,6 +99,7 @@
 		879F59421987FE2C0020A1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				87B00EDC198ADC5000B566CC /* paddle.png */,
 				878D357B198A77A00000B58D /* devbox.png */,
 				8766E477198915C700CE08CB /* ball.png */,
 				879F59431987FE2C0020A1B9 /* Info.plist */,
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */,
+				87B00EDD198ADC5000B566CC /* paddle.png in Resources */,
 				879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */,
 				878D357C198A77A00000B58D /* devbox.png in Resources */,
 				8766E478198915C700CE08CB /* ball.png in Resources */,

@@ -13,28 +13,48 @@ class GameScene: SKScene {
     //for delta time
 //    var lastUpdateTimeInterval: NSTimeInterval(NaN)
     
-    let ball             = SKSpriteNode(imageNamed: "ball")
-    let gamenameLabel    = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabel       = SKLabelNode(fontNamed: "Helvetica")
-    let movespeed        = 0.05
-    var currentDirection = CGVectorMake(5, 5)
-
+    let ball                                    = SKSpriteNode(imageNamed: "ball")
+    let devbox                                  = SKSpriteNode(imageNamed: "devbox")
+    let gamenameLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabel                              = SKLabelNode(fontNamed: "Helvetica")
+    let movespeed                               = 0.05
+    var currentDirection                        = CGVectorMake(5, 5)
+    var lastUpdateTimeInterval: CFTimeInterval  = 0
+    
+    
+    var fpsCount         = 0
     
     override func didMoveToView(view: SKView) {
 
-        self.backgroundColor = SKColor(red: 0.31, green: 0.39, blue: 0.4, alpha: 1)
-
+        
+        //SCENE (SELF)
+        self.backgroundColor        = SKColor(red: 0.31, green: 0.39, blue: 0.4, alpha: 1)
+        self.scaleMode              = SKSceneScaleMode.Fill
+        self.physicsBody            = SKPhysicsBody(edgeLoopFromRect: self.frame)
+        
         //NAME LABEL
-        gamenameLabel.text = "Swong"
-        gamenameLabel.fontSize = 65
-        gamenameLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        gamenameLabel.zPosition = -10
+        gamenameLabel.text          = "Swong"
+        gamenameLabel.fontSize      = 65
+        gamenameLabel.position      = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        gamenameLabel.zPosition     = -10
         self.addChild(gamenameLabel)
         
         // BALL
-        ball.size = CGSizeMake(50, 50)
-        ball.position = CGPointMake(self.frame.midX, self.frame.midY)
+        ball.size                   = CGSizeMake(50, 50)
+        ball.position               = CGPointMake(self.frame.midX, self.frame.midY)
+        ball.physicsBody            = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
+        ball.physicsBody.dynamic    = true
+        
+        
         self.addChild(ball)
+        
+        //DEVBOX
+        devbox.size                 = CGSizeMake(150, 150)
+        devbox.position             = CGPointMake(self.frame.midX + 0.25 * self.frame.width, self.frame.midY)
+        devbox.physicsBody          = SKPhysicsBody(rectangleOfSize: devbox.size)
+        devbox.physicsBody.dynamic  = false
+        devbox.physicsBody.mass     = 0
+        self.addChild(devbox)
         
         // DEBUG LABEL
         debugLabel.text = "x: \(ball.position.x), y: \(ball.position.y)"
@@ -54,9 +74,6 @@ class GameScene: SKScene {
         for touch: AnyObject in touches {
             let taplocation = touch.locationInNode(self)
             self.ball.runAction(SKAction.moveTo(taplocation, duration: movespeed))
-
-            println("TOUCH  x: \(taplocation.x) y: \(taplocation.y)")
-            
         }
     }
     
@@ -65,47 +82,74 @@ class GameScene: SKScene {
         for touch: AnyObject in touches {
             let taplocation = touch.locationInNode(self)
             self.ball.runAction(SKAction.moveTo(taplocation, duration: movespeed))
-            println("CHANGE x: \(taplocation.x) y: \(taplocation.y)")
-
         }
     }
    
-    override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
 
-        
-        //bouncing effect at walls
-        if self.ball.position.x > self.frame.width - 0.5 * self.ball.size.width {
-            self.currentDirection.dx = self.currentDirection.dx * -1
-            
-            // to prevent it from getting "stuck" in the wall
-            self.ball.runAction(SKAction.moveByX(-20, y: self.currentDirection.dy, duration: 0))
-        }
-        
-        if self.ball.position.x < 0.5 * self.ball.size.width {
-            self.currentDirection.dx = self.currentDirection.dx * -1
-            
-            self.ball.runAction(SKAction.moveByX(20, y: self.currentDirection.dy, duration: 0))
-        }
-        
-        if self.ball.position.y > self.frame.height - 0.5 * self.ball.size.width {
-            self.currentDirection.dy = self.currentDirection.dy * -1
-            
-            self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: -20, duration: 0))
-        }
-        
-        if self.ball.position.y < 0.5 * self.ball.size.height {
-            self.currentDirection.dy = self.currentDirection.dy * -1
-            
-            self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: 20, duration: 0))
-        }
-        
-        
-        let move =   SKAction.moveBy(currentDirection, duration: movespeed)
-        
-        self.ball.runAction(move)
+    override func update(currentTime: CFTimeInterval) {
         self.debugLabel.text = "x: \(Int(self.ball.position.x)) y: \(Int(self.ball.position.y))"
 
         
+//        var delta: CFTimeInterval = currentTime - lastUpdateTimeInterval
+//        
+//        lastUpdateTimeInterval = currentTime;
+//        
+////        if (delta > 1.0) {
+////            delta = minTimeInterval;
+////        }
+//        
+//        updateWithTimeSinceLastUpdate(delta)
     }
+
+    
+    
+    
+    
+//    func updateWithTimeSinceLastUpdate(timeSinceLastUpdate: CFTimeInterval) {
+//        
+//            if self.ball.position.x > self.frame.width - 0.5 * self.ball.size.width {
+//                self.currentDirection.dx *= -1
+//                
+//                self.ball.runAction(SKAction.moveByX(-20, y: self.currentDirection.dy, duration: 0))
+//                
+//            }
+//            
+//            if self.ball.position.x < 0.5 * self.ball.size.width {
+//                self.currentDirection.dx *= -1
+//                
+//                self.ball.runAction(SKAction.moveByX(20, y: self.currentDirection.dy, duration: 0))
+//                
+//            }
+//            
+//            if self.ball.position.y > self.frame.height - 0.5 * self.ball.size.width {
+//                self.currentDirection.dy *= -1
+//                
+//                self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: -20, duration: 0))
+//                
+//            }
+//            
+//            if self.ball.position.y < 0.5 * self.ball.size.height {
+//                self.currentDirection.dy *= -1
+//                
+//                
+//                
+//                self.ball.runAction(SKAction.moveByX(self.currentDirection.dx, y: 20, duration: 0))
+//            }
+//            
+//        
+//            let move =   SKAction.moveBy(currentDirection, duration: movespeed * timeSinceLastUpdate)
+//            self.ball.runAction(move)
+//        
+//        
+//            self.debugLabel.text = "x: \(Int(self.ball.position.x)) y: \(Int(self.ball.position.y))"
+//        
+//    }
 }
+
+
+
+
+
+
+
+

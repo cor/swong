@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8766E478198915C700CE08CB /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 8766E477198915C700CE08CB /* ball.png */; };
+		878D357C198A77A00000B58D /* devbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 878D357B198A77A00000B58D /* devbox.png */; };
 		879F59451987FE2C0020A1B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F59441987FE2C0020A1B9 /* AppDelegate.swift */; };
 		879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 879F59461987FE2C0020A1B9 /* GameScene.sks */; };
 		879F59491987FE2C0020A1B9 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F59481987FE2C0020A1B9 /* GameScene.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		8766E477198915C700CE08CB /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
+		878D357B198A77A00000B58D /* devbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devbox.png; sourceTree = "<group>"; };
 		879F593F1987FE2C0020A1B9 /* swong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879F59431987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		879F59441987FE2C0020A1B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		879F59421987FE2C0020A1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				878D357B198A77A00000B58D /* devbox.png */,
 				8766E477198915C700CE08CB /* ball.png */,
 				879F59431987FE2C0020A1B9 /* Info.plist */,
 			);
@@ -200,6 +203,7 @@
 			files = (
 				879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */,
 				879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */,
+				878D357C198A77A00000B58D /* devbox.png in Resources */,
 				8766E478198915C700CE08CB /* ball.png in Resources */,
 				879F594E1987FE2C0020A1B9 /* Main.storyboard in Resources */,
 			);

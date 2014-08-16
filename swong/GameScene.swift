@@ -10,45 +10,40 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    //for delta time
-//    var lastUpdateTimeInterval: NSTimeInterval(NaN)
+    let ball                                        = SKSpriteNode(imageNamed: "ball")
+    let devbox                                      = SKSpriteNode(imageNamed: "devbox")
     
-    let ball                                    = SKSpriteNode(imageNamed: "ball")
-    let devbox                                  = SKSpriteNode(imageNamed: "devbox")
+    let paddle1                                     = SKSpriteNode(imageNamed: "paddle")
+    let paddle2                                     = SKSpriteNode(imageNamed: "paddle")
     
-    let paddle1                                 = SKSpriteNode(imageNamed: "paddle")
-    let paddle2                                 = SKSpriteNode(imageNamed: "paddle")
-//    let paddle1                                 = SKShapeNode()
-//    let paddle2                                 = SKShapeNode()
+    let wall1                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
+    let wall2                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
     
+    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    let gamenameLabel                               = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabelPosition                          = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     
-    let wall1                                   = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
-    let wall2                                   = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
+    let minimumMovespeed: CGFloat                   = 300.0
+    let movespeedMultiplier: CGFloat                = 1.1
+    let movespeed: CGFloat                          = 500.0
+    let verticalMoveSpeedAtStart: CGFloat           = 300.0
     
-    let paddle1scoreLabel                       = SKLabelNode(fontNamed: "Helvetica")
-    let paddle2scoreLabel                       = SKLabelNode(fontNamed: "Helvetica")
-    let gamenameLabel                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelPosition                      = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelVelocity                      = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelOther                         = SKLabelNode(fontNamed: "Helvetica")
+    let wallbounceAcceleration                      = 40
+    let waitduration                                = NSTimeInterval(3)
+    var waitAction: SKAction                        = SKAction()
     
-    let movespeed: CGFloat                      = 500.0
-    let movespeedMultiplier: CGFloat            = 30.0
-    let verticalMoveSpeedAtStart: CGFloat       = 300.0
+    var paddle1score                                = 0
+    var paddle2score                                = 0
     
-    let wallbounceAcceleration                  = 40
-    let waitduration                            = NSTimeInterval(3)
-    var waitAction: SKAction                    = SKAction()
-    
-    var paddle1score                            = 0
-    var paddle2score                            = 0
-    var paddleHitCount                          = 0
-    var ballIsResetting                         = false
+    var paddleHitCount                              = 0
     var previousBallHitTimestamp: NSTimeInterval?
     
     var now: NSTimeInterval!
     
-    
+    // Enumeration for categorybitmasks
     enum ColliderType: UInt32 {
         case Ball = 1
         case Paddle = 2
@@ -60,9 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
-    var fpsCount         = 0
-    
+    //All configuration is done here (physics, colors, sizes etc)
     override func didMoveToView(view: SKView) {
 
         
@@ -83,6 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.size                                       = CGSizeMake(50, 50)
         ball.position                                   = CGPointMake(self.frame.midX, self.frame.midY)
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
+        ball.physicsBody.velocity                       = CGVectorMake(CGFloat(movespeed), CGFloat(verticalMoveSpeedAtStart))
         ball.physicsBody.dynamic                        = true
         ball.physicsBody.allowsRotation                 = true
         ball.physicsBody.linearDamping                  = 0
@@ -91,7 +85,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(ball)
         
 
-        // OLD PADDLES
         //PADDLE 1
         paddle1.size                                    = CGSizeMake(50, 150)
         paddle1.position                                = CGPointMake((self.frame.width - paddle1.size.width), self.frame.midY)
@@ -100,6 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1.physicsBody.allowsRotation              = false
         paddle1.physicsBody.linearDamping               = 0
         paddle1.physicsBody.restitution                 = 1
+        paddle1.physicsBody.friction                    = 0
         paddle1.physicsBody.mass                        = 10000000000
         paddle1.physicsBody.categoryBitMask             = ColliderType.Paddle.toRaw()
         paddle1.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
@@ -113,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2.physicsBody.allowsRotation              = false
         paddle2.physicsBody.linearDamping               = 0
         paddle2.physicsBody.restitution                 = 1
+        paddle2.physicsBody.friction                    = 0
         paddle2.physicsBody.mass                        = 10000000000
         paddle2.physicsBody.categoryBitMask             = ColliderType.Paddle.toRaw()
         paddle2.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
@@ -172,7 +167,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelVelocity)
         
         //DEBUG LABEL OTHER
-        debugLabelOther.text                            = "RESETTING: \(self.ballIsResetting)"
         debugLabelOther.fontSize                        = 20
         debugLabelOther.position                        = CGPoint(x: 0, y: 42)
         debugLabelOther.horizontalAlignmentMode         = SKLabelHorizontalAlignmentMode.Left
@@ -180,20 +174,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelOther.zPosition                       = -10
         self.addChild(debugLabelOther)
         
-        
-        // RESET ANIMATION
-        let wait1 = SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.height - self.ball.size.height), duration: self.waitduration / 3)
-        let wait2 = SKAction.moveTo(CGPointMake(self.frame.midX, self.ball.size.height), duration: self.waitduration / 3)
-        let wait3 = SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: self.waitduration / 3)
-    
-        
-        self.waitAction = SKAction.sequence([wait1, wait2, wait3])
-        
-        ball.runAction(self.waitAction)
-        ball.physicsBody.velocity                       = CGVectorMake(CGFloat(movespeed), CGFloat(verticalMoveSpeedAtStart))
 
     }
     
+    //Move paddles when user begins touch
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         /* Called when a touch begins */
        
@@ -208,6 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    //Move paddles when user moves touch
     override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
         
         for touch: AnyObject in touches {
@@ -220,82 +205,78 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
    
-
-    func ballPositionRelativeToPaddle(paddle: Int) -> CGFloat {
-        assert(paddle == 1 || paddle == 2, "Invalid paddle parameter at ballPositionRelativeToPaddle()")
-
-        switch paddle {
-        case 1:
-            return ball.position.x - paddle1.position.x
-            
-        case 2:
-            return ball.position.x - paddle2.position.x
-        
-        default:
-            println("this never happens because of the assert statement above")
-            return 0
-        }
-    }
     
     func didBeginContact(contact: SKPhysicsContact!)  {
         
+        //Increase horizontal speed when ball hits paddle
         if contact.bodyA.categoryBitMask == ColliderType.Paddle.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
-            ballIsResetting = false
             ++paddleHitCount
-            ball.physicsBody.velocity.dx *= 1.1
+            ball.physicsBody.velocity.dx *= movespeedMultiplier
 
         }
         
-        if contact.bodyA.categoryBitMask == ColliderType.Wall1.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() && !ballIsResetting {
-            ballIsResetting = true
+        //Increase paddle2 score when ball hits wall1
+        if contact.bodyA.categoryBitMask == ColliderType.Wall1.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+            
             paddle2score++
             paddle2scoreLabel.text = "\(self.paddle2score)"
             resetBall()
 
         }
         
-        if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() && !ballIsResetting {
-            ballIsResetting = true
+        //Increase paddle1 score when ball hits wall2
+        if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+            
             paddle1score++
             paddle1scoreLabel.text = "\(self.paddle1score)"
             resetBall()
+            
         }
         
+        // Increase ball.velocity.dx on wallbounce
         if contact.bodyA.categoryBitMask == ColliderType.Leveledge.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+            
             if ball.position.y > self.frame.midY {
                 ball.physicsBody.velocity.dy -= CGFloat(wallbounceAcceleration)
             } else if ball.position.y < self.frame.midY {
                 ball.physicsBody.velocity.dy += CGFloat(wallbounceAcceleration)
             }
         }
+        
     }
     
     override func update(currentTime: CFTimeInterval) {
         
+        // Update debug labels
         debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
         debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
-        debugLabelOther.text    = "RESETTING: \(self.ballIsResetting) PADDLEHITCOUNT: \(self.paddleHitCount)"
+        debugLabelOther.text    = "PADDLEHITCOUNT: \(self.paddleHitCount)"
         
-        now = currentTime
+        // If the ball is moving too slow, increase speed
+        if !((ball.physicsBody.velocity.dx > minimumMovespeed) || (ball.physicsBody.velocity.dx < -minimumMovespeed)) {
+            println()
+            println("ball moving too slow ( \(Int(ball.physicsBody.velocity.dx)) ), increasing speed")
+            ball.physicsBody.velocity.dx *= 1.5
+            println("New speed: \(Int(ball.physicsBody.velocity.dx))")
+        }
         
 
     }
     
     func resetBall() {
-        self.ball.position = CGPointMake(self.frame.midX, self.frame.midY)
+        
+        ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1))
         self.paddleHitCount = 0
-    
-        self.ball.physicsBody.velocity.dx = 0
-        self.ball.physicsBody.velocity.dy = 0
         
-        ball.runAction(self.waitAction)
         
+        // taking turns on getting the ball first
         if ( self.paddle1score + self.paddle2score ) % 2 == 0 {
             self.ball.physicsBody.velocity.dx = CGFloat(self.movespeed * -1)
         } else {
             self.ball.physicsBody.velocity.dx = CGFloat(self.movespeed)
         }
+        
         self.ball.physicsBody.velocity.dy = CGFloat(self.verticalMoveSpeedAtStart)
     }
 }

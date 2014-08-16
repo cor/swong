@@ -220,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Wall1.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
             paddle2score++
-            paddle2scoreLabel.text = "\(self.paddle2score)"
+            paddle2scoreLabel.text = "\(paddle2score)"
             resetBall()
 
         }
@@ -229,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
             paddle1score++
-            paddle1scoreLabel.text = "\(self.paddle1score)"
+            paddle1scoreLabel.text = "\(paddle1score)"
             resetBall()
             
         }
@@ -251,7 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Update debug labels
         debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
         debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
-        debugLabelOther.text    = "PADDLEHITCOUNT: \(self.paddleHitCount)"
+        debugLabelOther.text    = "PADDLEHITCOUNT: \(paddleHitCount)"
         
         // If the ball is moving too slow, increase speed
         if !((ball.physicsBody.velocity.dx > minimumMovespeed) || (ball.physicsBody.velocity.dx < -minimumMovespeed)) {
@@ -266,17 +266,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func resetBall() {
         
+        //run reset action
         ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1))
-        self.paddleHitCount = 0
+        paddleHitCount = 0
         
         
         // taking turns on getting the ball first
-        if ( self.paddle1score + self.paddle2score ) % 2 == 0 {
-            self.ball.physicsBody.velocity.dx = CGFloat(self.movespeed * -1)
+        if ( paddle1score + paddle2score ) % 2 == 0 {
+            ball.physicsBody.velocity.dx = CGFloat(movespeed * -1)
         } else {
-            self.ball.physicsBody.velocity.dx = CGFloat(self.movespeed)
+            ball.physicsBody.velocity.dx = CGFloat(movespeed)
         }
         
-        self.ball.physicsBody.velocity.dy = CGFloat(self.verticalMoveSpeedAtStart)
+        ball.physicsBody.velocity.dy = CGFloat(verticalMoveSpeedAtStart)
     }
 }

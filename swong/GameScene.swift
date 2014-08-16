@@ -28,7 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelsAreEnabled                       = false
+    let debugLabelsAreEnabled                       = true
 
     let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
     let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
@@ -36,17 +36,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playLabel                                   = SKLabelNode(fontNamed: "Futura")
     let againLabel                                  = SKLabelNode(fontNamed: "Futura")
     
-    let minimumMovespeed: CGFloat                   = 300.0
+    //change these values for different speeds.
+    let minimumHorizontalMovespeed: CGFloat         = 300.0
     let movespeedMultiplier: CGFloat                = 1.1
-    let movespeed: CGFloat                          = 500.0
+    let horizontalMoveSpeedAtStart: CGFloat         = 500.0
     let verticalMoveSpeedAtStart: CGFloat           = 300.0
     
     let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
     
-    let wallbounceAcceleration                      = 40
     let waitduration                                = NSTimeInterval(3)
     var waitAction: SKAction                        = SKAction()
     
+    var ballIsResetting                             = true
     
     var paddle1score                                = 0
     var paddle2score                                = 0
@@ -71,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //All configuration is done here (physics, colors, sizes etc)
     override func didMoveToView(view: SKView) {
 
+        println("LOG | Game booting up")
         
         //SCENE (SELF)
         self.backgroundColor                            = SKColor(red: 0.31, green: 0.3, blue: 0.5, alpha: 1)
@@ -89,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.size                                       = CGSizeMake(50, 50)
         ball.position                                   = CGPointMake(self.frame.midX, self.frame.midY)
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
-        ball.physicsBody.velocity                       = CGVectorMake(CGFloat(movespeed), CGFloat(verticalMoveSpeedAtStart))
+        ball.physicsBody.velocity                       = CGVectorMake(CGFloat(horizontalMoveSpeedAtStart), CGFloat(verticalMoveSpeedAtStart))
         ball.physicsBody.dynamic                        = true
         ball.physicsBody.allowsRotation                 = true
         ball.physicsBody.linearDamping                  = 0
@@ -236,6 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             for touch: AnyObject in touches  {
                 if touch.locationInNode(self).x > ( self.frame.midX - 50 ) && touch.locationInNode(self).x < ( self.frame.midX + 50) {
+                    println("LOG | Start Game Area pressed, starting game")
                     resetGame()
                     gameIsRunning = true
                     self.addChild(ball)
@@ -267,37 +270,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Increase horizontal speed when ball hits paddle
         if contact.bodyA.categoryBitMask == ColliderType.Paddle.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
+            print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody.velocity.dx))  --> ")
+            
             ++paddleHitCount
             ball.physicsBody.velocity.dx *= movespeedMultiplier
+            
+            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
 
         }
         
         //Increase paddle2 score when ball hits wall1
         if contact.bodyA.categoryBitMask == ColliderType.Wall1.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
-            paddle2score++
-            paddle2scoreLabel.text = "\(paddle2score)"
-            resetBall()
-
+            if !ballIsResetting {
+                ballIsResetting = true
+                println("LOG | Ball hit wall1, increasing paddle 2 score: \(paddle2score)  --> new score: \(paddle2score + 1)")
+                paddle2score++
+                paddle2scoreLabel.text = "\(paddle2score)"
+                resetBall()
+            }
         }
         
         //Increase paddle1 score when ball hits wall2
         if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
-            paddle1score++
-            paddle1scoreLabel.text = "\(paddle1score)"
-            resetBall()
-            
+            if !ballIsResetting {
+                ballIsResetting = true
+                println("LOG | Ball hit wall2, increasing paddle 1 score: \(paddle1score) --> new score: \(paddle1score + 1)")
+                paddle1score++
+                paddle1scoreLabel.text = "\(paddle1score)"
+                resetBall()
+            }
+        
         }
         
         // Increase ball.velocity.dx on wallbounce
         if contact.bodyA.categoryBitMask == ColliderType.Leveledge.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
+            print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody.velocity.dy)) ")
+            
             if ball.position.y > self.frame.midY {
-                ball.physicsBody.velocity.dy -= CGFloat(wallbounceAcceleration)
+                ball.physicsBody.velocity.dy *= movespeedMultiplier
             } else if ball.position.y < self.frame.midY {
-                ball.physicsBody.velocity.dy += CGFloat(wallbounceAcceleration)
+                ball.physicsBody.velocity.dy *= movespeedMultiplier
             }
+            
+            println("--> new speed: \(ball.physicsBody.velocity.dy)")
         }
         
     }
@@ -319,24 +337,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // If the ball is moving too slow, increase speed
-        if !((ball.physicsBody.velocity.dx > minimumMovespeed) || (ball.physicsBody.velocity.dx < -minimumMovespeed)) {
-            println()
-            println("ball moving too slow ( \(Int(ball.physicsBody.velocity.dx)) ), increasing speed")
+        if !((ball.physicsBody.velocity.dx > minimumHorizontalMovespeed) || (ball.physicsBody.velocity.dx < -minimumHorizontalMovespeed)) {
+            print("LOG | ball moving too slow: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
             ball.physicsBody.velocity.dx *= 1.5
-            println("New speed: \(Int(ball.physicsBody.velocity.dx))")
+            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
         }
         
         
-        if paddle1score >= 7 {
+        if paddle1score >= 7 && gameIsRunning {
+            println("LOG | paddle1score is \(paddle1score), he wins the game")
             gameDidEnd(winner:1)
-        } else if paddle2score >= 7 {
+        } else if paddle2score >= 7 && gameIsRunning {
             gameDidEnd(winner: 2)
         }
 
     }
     
     func gameDidEnd(#winner: Int) {
-        
+        println("LOG | gameDidEnd() now running")
         if gameIsRunning {
             gameIsRunning = false
             ball.removeFromParent()
@@ -368,22 +386,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetBall() {
-        
+        println("LOG | resetting ball")
         //run reset action
-        ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1))
+        ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1), completion: { () -> Void in
+            self.ballIsResetting = false
+        })
         paddleHitCount = 0
         
         // taking turns on getting the ball first
         if ( paddle1score + paddle2score ) % 2 == 0 {
-            ball.physicsBody.velocity.dx = CGFloat(movespeed * -1)
+            ball.physicsBody.velocity.dx = CGFloat(horizontalMoveSpeedAtStart * -1)
         } else {
-            ball.physicsBody.velocity.dx = CGFloat(movespeed)
+            ball.physicsBody.velocity.dx = CGFloat(horizontalMoveSpeedAtStart)
         }
         
         ball.physicsBody.velocity.dy = CGFloat(verticalMoveSpeedAtStart)
     }
     
     func resetGame() {
+        println("LOG | game resetting")
         resetBall()
 
         paddle1score = 0

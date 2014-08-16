@@ -10,7 +10,6 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    
     let ball                                        = SKSpriteNode(imageNamed: "ball")
     let devbox                                      = SKSpriteNode(imageNamed: "devbox")
     
@@ -29,10 +28,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelsEnabled                          = true
+    let debugLabelsAreEnabled                       = false
 
-    let gameEndLabel1                               = SKLabelNode(fontNamed: "Helvetica")
-    let gameEndLabel2                               = SKLabelNode(fontNamed: "Helvetica")
+    let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
+    let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
+    
+    let playLabel                                   = SKLabelNode(fontNamed: "Futura")
+    let againLabel                                  = SKLabelNode(fontNamed: "Futura")
     
     let minimumMovespeed: CGFloat                   = 300.0
     let movespeedMultiplier: CGFloat                = 1.1
@@ -89,11 +91,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
         ball.physicsBody.velocity                       = CGVectorMake(CGFloat(movespeed), CGFloat(verticalMoveSpeedAtStart))
         ball.physicsBody.dynamic                        = true
-        ball.physicsBody.allowsRotation                 = false
+        ball.physicsBody.allowsRotation                 = true
         ball.physicsBody.linearDamping                  = 0
         ball.physicsBody.categoryBitMask                = ColliderType.Ball.toRaw()
         ball.physicsBody.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
-        
+        ball.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(2, duration: 0.1)))
 
         //PADDLE 1
         paddle1.size                                    = CGSizeMake(32, 150)
@@ -160,6 +162,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2scoreLabel.fontColor                     = textColor
         self.addChild(paddle2scoreLabel)
         
+        // PLAY LABEL
+        playLabel.text                                  = "Play"
+        playLabel.alpha                                 = 0
+        playLabel.fontSize                              = 60
+        playLabel.position                              = CGPoint(x: self.frame.midX + 20, y: 0.2 * self.frame.height)
+        playLabel.horizontalAlignmentMode               = SKLabelHorizontalAlignmentMode.Left
+        playLabel.zPosition                             = -10
+        playLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
+        self.addChild(playLabel)
+        playLabel.runAction(SKAction.fadeInWithDuration(3))
+        
+        // AGAIN LABEL
+        againLabel.text                                 = "again?"
+        againLabel.alpha                                = 0
+        againLabel.fontSize                             = 60
+        againLabel.position                             = CGPoint(x:self.frame.midX + 20, y: 0.68 * self.frame.height)
+        againLabel.horizontalAlignmentMode              = SKLabelHorizontalAlignmentMode.Left
+        againLabel.zPosition                            = -10
+        againLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
+        self.addChild(againLabel)
         
         //DEBUG LABEL POSITION
         debugLabelPosition.text                         = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
@@ -212,10 +234,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             }
         } else {
-            resetGame()
-            gameIsRunning = true
-            
-            self.addChild(ball)
+            for touch: AnyObject in touches  {
+                if touch.locationInNode(self).x > ( self.frame.midX - 50 ) && touch.locationInNode(self).x < ( self.frame.midX + 50) {
+                    resetGame()
+                    gameIsRunning = true
+                    self.addChild(ball)
+                    playLabel.runAction(SKAction.fadeOutWithDuration(1))
+                    againLabel.runAction(SKAction.fadeOutWithDuration(1))
+                }
+            }
         }
     }
     
@@ -279,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Update debug labels
         
-        if debugLabelsEnabled {
+        if debugLabelsAreEnabled {
             debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
             debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
             debugLabelOther.text    = "PADDLEHITCOUNT: \(paddleHitCount)"
@@ -323,8 +350,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 1))
             gameEndLabel1.runAction(SKAction.fadeInWithDuration(1))
 
-
-            
             
             gameEndLabel2.fontSize                          = 60
             gameEndLabel2.alpha                             = 0
@@ -335,6 +360,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(M_PI / -2.0), duration: 1))
             gameEndLabel2.runAction(SKAction.fadeInWithDuration(1))
 
+            playLabel.runAction(SKAction.fadeInWithDuration(3))
+            againLabel.runAction(SKAction.fadeInWithDuration(3))
         }
 
 
@@ -363,8 +390,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1scoreLabel.text = "\(paddle1score)"
         paddle2score = 0
         paddle2scoreLabel.text = "\(paddle2score)"
-        gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(0), duration: 1))
-        gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(0), duration: 1))
         gameEndLabel1.removeFromParent()
         gameEndLabel2.removeFromParent()
     }

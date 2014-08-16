@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8719F51E199FA34800A38CE3 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 8719F51D199FA34800A38CE3 /* ball.png */; };
 		878D357C198A77A00000B58D /* devbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 878D357B198A77A00000B58D /* devbox.png */; };
 		879F59451987FE2C0020A1B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F59441987FE2C0020A1B9 /* AppDelegate.swift */; };
 		879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 879F59461987FE2C0020A1B9 /* GameScene.sks */; };
@@ -20,7 +21,6 @@
 		87E4FC4E199F9AFF00785C15 /* smallBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC4D199F9AFF00785C15 /* smallBackground.png */; };
 		87E4FC51199F9F0700785C15 /* paddle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC4F199F9F0700785C15 /* paddle1.png */; };
 		87E4FC54199F9F1E00785C15 /* paddle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC53199F9F1E00785C15 /* paddle2.png */; };
-		87E4FC56199FA21B00785C15 /* ball.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC55199FA21B00785C15 /* ball.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8719F51D199FA34800A38CE3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		878D357B198A77A00000B58D /* devbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devbox.png; sourceTree = "<group>"; };
 		879F593F1987FE2C0020A1B9 /* swong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879F59431987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,7 +52,6 @@
 		87E4FC4D199F9AFF00785C15 /* smallBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallBackground.png; sourceTree = "<group>"; };
 		87E4FC4F199F9F0700785C15 /* paddle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle1.png; sourceTree = "<group>"; };
 		87E4FC53199F9F1E00785C15 /* paddle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle2.png; sourceTree = "<group>"; };
-		87E4FC55199FA21B00785C15 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 		879F59421987FE2C0020A1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				87E4FC55199FA21B00785C15 /* ball.png */,
+				8719F51D199FA34800A38CE3 /* ball.png */,
 				87E4FC53199F9F1E00785C15 /* paddle2.png */,
 				87E4FC4F199F9F0700785C15 /* paddle1.png */,
 				87E4FC4D199F9AFF00785C15 /* smallBackground.png */,
@@ -222,7 +222,7 @@
 				87E4FC4C199F96AD00785C15 /* background.png in Resources */,
 				879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */,
 				878D357C198A77A00000B58D /* devbox.png in Resources */,
-				87E4FC56199FA21B00785C15 /* ball.png in Resources */,
+				8719F51E199FA34800A38CE3 /* ball.png in Resources */,
 				879F594E1987FE2C0020A1B9 /* Main.storyboard in Resources */,
 				87E4FC4E199F9AFF00785C15 /* smallBackground.png in Resources */,
 				87E4FC51199F9F0700785C15 /* paddle1.png in Resources */,
@@ -362,7 +362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = swong/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -374,7 +374,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = swong/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

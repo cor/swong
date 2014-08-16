@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    
     let ball                                        = SKSpriteNode(imageNamed: "ball")
     let devbox                                      = SKSpriteNode(imageNamed: "devbox")
     
@@ -27,15 +28,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelPosition                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
+    let debugLabelsEnabled                          = true
+
+    let gameEndLabel1                               = SKLabelNode(fontNamed: "Helvetica")
+    let gameEndLabel2                               = SKLabelNode(fontNamed: "Helvetica")
     
     let minimumMovespeed: CGFloat                   = 300.0
     let movespeedMultiplier: CGFloat                = 1.1
     let movespeed: CGFloat                          = 500.0
     let verticalMoveSpeedAtStart: CGFloat           = 300.0
     
+    let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
+    
     let wallbounceAcceleration                      = 40
     let waitduration                                = NSTimeInterval(3)
     var waitAction: SKAction                        = SKAction()
+    
     
     var paddle1score                                = 0
     var paddle2score                                = 0
@@ -43,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var paddleHitCount                              = 0
     var previousBallHitTimestamp: NSTimeInterval?
     
-    var now: NSTimeInterval!
+    var gameIsRunning                               = true
     
     // Enumeration for categorybitmasks
     enum ColliderType: UInt32 {
@@ -138,17 +147,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // PADDLE 1 SCORE LABEL
         paddle1scoreLabel.text                          = "\(self.paddle1score)"
-        paddle1scoreLabel.fontSize                      = 50
-        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 64, self.frame.height - 50)
+        paddle1scoreLabel.fontSize                      = 45
+        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 66, self.frame.height - 50)
         paddle1scoreLabel.zPosition                     = -10
+        paddle1scoreLabel.fontColor                     = textColor
         self.addChild(paddle1scoreLabel)
         
         // PADDLE 2 SCORE LABEL
         paddle2scoreLabel.text                          = "\(self.paddle2score)"
-        paddle2scoreLabel.fontSize                      = 50
-        paddle2scoreLabel.position                      = CGPointMake(self.frame.midX - 62, self.frame.height - 50)
+        paddle2scoreLabel.fontSize                      = 45
+        paddle2scoreLabel.position                      = CGPoint(x: self.frame.midX - 62, y: self.frame.height - 50)
         paddle2scoreLabel.zPosition                     = -10
+        paddle2scoreLabel.fontColor                     = textColor
         self.addChild(paddle2scoreLabel)
+        
         
         //DEBUG LABEL POSITION
         debugLabelPosition.text                         = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
@@ -176,6 +188,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelOther.zPosition                       = -10
         self.addChild(debugLabelOther)
         
+        
+        //DEBUG LABEL RUNNING
+        debugLabelRunning.fontSize                      = 20
+        debugLabelRunning.position                      = CGPoint(x: 0, y: 60)
+        debugLabelRunning.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Left
+        debugLabelRunning.verticalAlignmentMode         = SKLabelVerticalAlignmentMode.Bottom
+        debugLabelRunning.zPosition                     = -10
+        self.addChild(debugLabelRunning)
 
     }
     
@@ -251,9 +271,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(currentTime: CFTimeInterval) {
         
         // Update debug labels
-        debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
-        debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
-        debugLabelOther.text    = "PADDLEHITCOUNT: \(paddleHitCount)"
+        
+        if debugLabelsEnabled {
+            debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
+            debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
+            debugLabelOther.text    = "PADDLEHITCOUNT: \(paddleHitCount)"
+            debugLabelRunning.text  = "RUNNING: \(gameIsRunning)"
+        } else  {
+            debugLabelPosition.text = ""
+            debugLabelVelocity.text = ""
+            debugLabelOther.text    = ""
+            debugLabelRunning.text  = ""
+        }
         
         // If the ball is moving too slow, increase speed
         if !((ball.physicsBody.velocity.dx > minimumMovespeed) || (ball.physicsBody.velocity.dx < -minimumMovespeed)) {
@@ -263,6 +292,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             println("New speed: \(Int(ball.physicsBody.velocity.dx))")
         }
         
+        
+        if paddle1score >= 7 {
+            gameDidEnd(winner:1)
+        } else if paddle2score >= 7 {
+            gameDidEnd(winner: 2)
+        }
+
+    }
+    
+    func gameDidEnd(#winner: Int) {
+        
+        if gameIsRunning {
+            gameIsRunning = false
+            ball.removeFromParent()
+            
+            gameEndLabel1.fontSize                          = 60
+            gameEndLabel1.position                          = CGPoint(x: self.frame.size.width * 0.75, y: self.frame.midY)
+            gameEndLabel1.zPosition                         = 300
+            gameEndLabel1.text                              = (winner == 1 ? "You win!" : "You lose...")
+            self.addChild(gameEndLabel1)
+            gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 1))
+
+            
+            
+            gameEndLabel2.fontSize                          = 60
+            gameEndLabel2.position                          = CGPoint(x: self.frame.size.width * 0.25, y: self.frame.midY)
+            gameEndLabel2.zPosition                         = 300
+            gameEndLabel2.text                              = (winner == 2 ? "You win!" : "You lose...")
+            self.addChild(gameEndLabel2)
+            gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(M_PI / -2.0), duration: 1))
+        }
+
 
     }
     

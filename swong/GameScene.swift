@@ -13,8 +13,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ball                                        = SKSpriteNode(imageNamed: "ball")
     let devbox                                      = SKSpriteNode(imageNamed: "devbox")
     
-    let paddle1                                     = SKSpriteNode(imageNamed: "paddle")
-    let paddle2                                     = SKSpriteNode(imageNamed: "paddle")
+    let paddle1                                     = SKSpriteNode(imageNamed: "paddle1")
+    let paddle2                                     = SKSpriteNode(imageNamed: "paddle2")
     
     let wall1                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
     let wall2                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
 
         //PADDLE 1
-        paddle1.size                                    = CGSizeMake(50, 150)
+        paddle1.size                                    = CGSizeMake(32, 150)
         paddle1.position                                = CGPointMake((self.frame.width - paddle1.size.width), self.frame.midY)
         paddle1.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle1.size)
         paddle1.physicsBody.dynamic                     = true
@@ -102,7 +102,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(paddle1)
         
         //PADDLE 2
-        paddle2.size                                    = CGSizeMake(50, 150)
+        paddle2.size                                    = CGSizeMake(32, 150)
         paddle2.position                                = CGPointMake(paddle2.size.width, self.frame.midY)
         paddle2.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle2.size)
         paddle2.physicsBody.dynamic                     = true

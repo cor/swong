@@ -16,8 +16,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let paddle1                                     = SKSpriteNode(imageNamed: "paddle1")
     let paddle2                                     = SKSpriteNode(imageNamed: "paddle2")
     
-    let wall1                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
-    let wall2                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
+    let wall1                                       = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: 2, height: 768))
+    let wall2                                       = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: 2, height: 768))
     
     let background                                  = SKSpriteNode(imageNamed: "smallBackground")
     

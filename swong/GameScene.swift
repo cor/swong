@@ -19,9 +19,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let wall1                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
     let wall2                                       = SKSpriteNode(color: SKColor.blackColor(), size: CGSize(width: 2, height: 768))
     
+    let background                                  = SKSpriteNode(imageNamed: "smallBackground")
+    
     let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
     let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
-    let gamenameLabel                               = SKLabelNode(fontNamed: "Helvetica")
+    
     let debugLabelPosition                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
@@ -78,7 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
         ball.physicsBody.velocity                       = CGVectorMake(CGFloat(movespeed), CGFloat(verticalMoveSpeedAtStart))
         ball.physicsBody.dynamic                        = true
-        ball.physicsBody.allowsRotation                 = true
+        ball.physicsBody.allowsRotation                 = false
         ball.physicsBody.linearDamping                  = 0
         ball.physicsBody.categoryBitMask                = ColliderType.Ball.toRaw()
         ball.physicsBody.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
@@ -113,6 +115,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
         self.addChild(paddle2)
 
+        
+        //BACKGROUND
+        background.position                             = CGPointMake(self.frame.midX, self.frame.midY)
+        background.zPosition                            = -100
+        background.size                                 = self.size
+        self.addChild(background)
+        
         //WALL 1 
         wall1.position                                  = CGPointMake(self.frame.width - (0.5 * wall2.size.width), self.frame.midY)
         wall1.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall1.size)
@@ -129,24 +138,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // PADDLE 1 SCORE LABEL
         paddle1scoreLabel.text                          = "\(self.paddle1score)"
-        paddle1scoreLabel.fontSize                      = 60
-        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 100, self.frame.height - 100)
+        paddle1scoreLabel.fontSize                      = 50
+        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 64, self.frame.height - 50)
         paddle1scoreLabel.zPosition                     = -10
         self.addChild(paddle1scoreLabel)
         
         // PADDLE 2 SCORE LABEL
         paddle2scoreLabel.text                          = "\(self.paddle2score)"
-        paddle2scoreLabel.fontSize                      = 60
-        paddle2scoreLabel.position                      = CGPointMake(self.frame.midX - 100, self.frame.height - 100)
+        paddle2scoreLabel.fontSize                      = 50
+        paddle2scoreLabel.position                      = CGPointMake(self.frame.midX - 62, self.frame.height - 50)
         paddle2scoreLabel.zPosition                     = -10
         self.addChild(paddle2scoreLabel)
-        
-        //NAME LABEL
-        gamenameLabel.text                              = "Swong"
-        gamenameLabel.fontSize                          = 60
-        gamenameLabel.position                          = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        gamenameLabel.zPosition                         = -10
-        self.addChild(gamenameLabel)
         
         //DEBUG LABEL POSITION
         debugLabelPosition.text                         = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"

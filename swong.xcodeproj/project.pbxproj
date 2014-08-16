@@ -17,6 +17,8 @@
 		879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 879F594F1987FE2C0020A1B9 /* Images.xcassets */; };
 		879F595C1987FE2C0020A1B9 /* swongTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879F595B1987FE2C0020A1B9 /* swongTests.swift */; };
 		87B00EDD198ADC5000B566CC /* paddle.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B00EDC198ADC5000B566CC /* paddle.png */; };
+		87E4FC4C199F96AD00785C15 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC4B199F96AD00785C15 /* background.png */; };
+		87E4FC4E199F9AFF00785C15 /* smallBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 87E4FC4D199F9AFF00785C15 /* smallBackground.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		879F595A1987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		879F595B1987FE2C0020A1B9 /* swongTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swongTests.swift; sourceTree = "<group>"; };
 		87B00EDC198ADC5000B566CC /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
+		87E4FC4B199F96AD00785C15 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		87E4FC4D199F9AFF00785C15 /* smallBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smallBackground.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 		879F59421987FE2C0020A1B9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				87E4FC4D199F9AFF00785C15 /* smallBackground.png */,
+				87E4FC4B199F96AD00785C15 /* background.png */,
 				87B00EDC198ADC5000B566CC /* paddle.png */,
 				878D357B198A77A00000B58D /* devbox.png */,
 				8766E477198915C700CE08CB /* ball.png */,
@@ -206,10 +212,12 @@
 			files = (
 				879F59501987FE2C0020A1B9 /* Images.xcassets in Resources */,
 				87B00EDD198ADC5000B566CC /* paddle.png in Resources */,
+				87E4FC4C199F96AD00785C15 /* background.png in Resources */,
 				879F59471987FE2C0020A1B9 /* GameScene.sks in Resources */,
 				878D357C198A77A00000B58D /* devbox.png in Resources */,
 				8766E478198915C700CE08CB /* ball.png in Resources */,
 				879F594E1987FE2C0020A1B9 /* Main.storyboard in Resources */,
+				87E4FC4E199F9AFF00785C15 /* smallBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

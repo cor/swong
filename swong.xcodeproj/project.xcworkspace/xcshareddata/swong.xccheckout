@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>F0A10986-D6BB-4B99-84A4-2B9B8D172B93</string>
+	<key>IDESourceControlProjectName</key>
+	<string>swong</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8B336B527D9E6F62DE7169D11DE9FE9A76F31CBE</key>
+		<string>https://github.com/CorPruijs/swong.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>swong.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8B336B527D9E6F62DE7169D11DE9FE9A76F31CBE</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/CorPruijs/swong.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8B336B527D9E6F62DE7169D11DE9FE9A76F31CBE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8B336B527D9E6F62DE7169D11DE9FE9A76F31CBE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>swong</string>
+		</dict>
+	</array>
+</dict>
+</plist>

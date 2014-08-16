@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var paddleHitCount                              = 0
     var previousBallHitTimestamp: NSTimeInterval?
     
-    var gameIsRunning                               = true
+    var gameIsRunning                               = false
     
     // Enumeration for categorybitmasks
     enum ColliderType: UInt32 {
@@ -93,7 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody.linearDamping                  = 0
         ball.physicsBody.categoryBitMask                = ColliderType.Ball.toRaw()
         ball.physicsBody.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
-        self.addChild(ball)
         
 
         //PADDLE 1
@@ -201,30 +200,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Move paddles when user begins touch
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
        
-        for touch: AnyObject in touches {
+        if gameIsRunning {
+            for touch: AnyObject in touches {
 
-            if touch.locationInNode(self).x > self.frame.midX {
-                paddle1.position.y = touch.locationInNode(self).y
-            } else if touch.locationInNode(self).x < self.frame.midX {
-                paddle2.position.y = touch.locationInNode(self).y
+                if touch.locationInNode(self).x > self.frame.midX {
+                    paddle1.position.y = touch.locationInNode(self).y
+                } else if touch.locationInNode(self).x < self.frame.midX {
+                    paddle2.position.y = touch.locationInNode(self).y
+                }
+
             }
-
+        } else {
+            resetGame()
+            gameIsRunning = true
+            
+            self.addChild(ball)
         }
     }
     
     //Move paddles when user moves touch
     override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
         
-        for touch: AnyObject in touches {
-            if touch.locationInNode(self).x > self.frame.midX {
-                paddle1.position.y = touch.locationInNode(self).y
-            } else if touch.locationInNode(self).x < self.frame.midX {
-                paddle2.position.y = touch.locationInNode(self).y
+        if gameIsRunning {
+            for touch: AnyObject in touches {
+                if touch.locationInNode(self).x > self.frame.midX {
+                    paddle1.position.y = touch.locationInNode(self).y
+                } else if touch.locationInNode(self).x < self.frame.midX {
+                    paddle2.position.y = touch.locationInNode(self).y
+                }
             }
-
         }
+        
     }
    
     
@@ -308,20 +315,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.removeFromParent()
             
             gameEndLabel1.fontSize                          = 60
+            gameEndLabel1.alpha                             = 0
             gameEndLabel1.position                          = CGPoint(x: self.frame.size.width * 0.75, y: self.frame.midY)
             gameEndLabel1.zPosition                         = 300
             gameEndLabel1.text                              = (winner == 1 ? "You win!" : "You lose...")
             self.addChild(gameEndLabel1)
             gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 1))
+            gameEndLabel1.runAction(SKAction.fadeInWithDuration(1))
+
 
             
             
             gameEndLabel2.fontSize                          = 60
+            gameEndLabel2.alpha                             = 0
             gameEndLabel2.position                          = CGPoint(x: self.frame.size.width * 0.25, y: self.frame.midY)
             gameEndLabel2.zPosition                         = 300
             gameEndLabel2.text                              = (winner == 2 ? "You win!" : "You lose...")
             self.addChild(gameEndLabel2)
             gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(M_PI / -2.0), duration: 1))
+            gameEndLabel2.runAction(SKAction.fadeInWithDuration(1))
+
         }
 
 
@@ -333,7 +346,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1))
         paddleHitCount = 0
         
-        
         // taking turns on getting the ball first
         if ( paddle1score + paddle2score ) % 2 == 0 {
             ball.physicsBody.velocity.dx = CGFloat(movespeed * -1)
@@ -342,5 +354,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         ball.physicsBody.velocity.dy = CGFloat(verticalMoveSpeedAtStart)
+    }
+    
+    func resetGame() {
+        resetBall()
+
+        paddle1score = 0
+        paddle1scoreLabel.text = "\(paddle1score)"
+        paddle2score = 0
+        paddle2scoreLabel.text = "\(paddle2score)"
+        gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(0), duration: 1))
+        gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(0), duration: 1))
+        gameEndLabel1.removeFromParent()
+        gameEndLabel2.removeFromParent()
     }
 }

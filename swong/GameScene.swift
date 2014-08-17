@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelsAreEnabled                       = false
+    let debugLabelsAreEnabled                       = true
     
     // speeds
     let minimumHorizontalMovespeed: CGFloat         = 300.0
@@ -336,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.physicsBody.velocity.dy *= movespeedMultiplier
             }
             
-            println("--> new speed: \(ball.physicsBody.velocity.dy)")
+            println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
         }
         
     }
@@ -396,6 +396,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    //get random vector (used at ball reset)
+    func newBallVector(var forPlayer player: Int) -> CGVector {
+        
+        var dx: CGFloat = 0
+        var dy: CGFloat = 0
+        
+        
+        if !(player == 1 || player == 2) {
+            println("ERR | Invalid player argument at newBallVector() --> using player 1 instead")
+        }
+        
+        if player == 1 {
+            dx = 500
+        } else if player == 2 {
+            dx = -500
+        }
+        
+        let possibleStartDx: [CGFloat] = [500, 400, 300, 200, 100, -100, -200, -300, -400, -500]
+        dy = possibleStartDx[Int(arc4random_uniform(UInt32(possibleStartDx.count)))]
+       
+        println("LOG | new random ball vector --> dx: \(dx), dy: \(dy)")
+        return CGVector(dx: dx, dy: dy)
+    }
+    
     func resetBall() {
         println("LOG | resetting ball")
         //run reset action
@@ -406,12 +430,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // taking turns on getting the ball first
         if ( paddle1score + paddle2score ) % 2 == 0 {
-            ball.physicsBody.velocity.dx = CGFloat(horizontalMoveSpeedAtStart * -1)
+            ball.physicsBody.velocity = newBallVector(forPlayer: 1)
         } else {
-            ball.physicsBody.velocity.dx = CGFloat(horizontalMoveSpeedAtStart)
+            ball.physicsBody.velocity = newBallVector(forPlayer: 2)
         }
         
-        ball.physicsBody.velocity.dy = CGFloat(verticalMoveSpeedAtStart)
     }
     
     func resetGame() {

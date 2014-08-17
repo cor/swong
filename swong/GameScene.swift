@@ -10,55 +10,51 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let ball                                        = SKSpriteNode(imageNamed: "ball")
     
+    let ball                                        = SKSpriteNode(imageNamed: "ball")
     let paddle1                                     = SKSpriteNode(imageNamed: "paddle1")
     let paddle2                                     = SKSpriteNode(imageNamed: "paddle2")
     
     let wall1                                       = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: 2, height: 768))
     let wall2                                       = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: 2, height: 768))
     
+    // aesthetics
     let background                                  = SKSpriteNode(imageNamed: "smallBackground")
+    let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
     
-    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
-    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    // score labels
+    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Futura")
+    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Futura")
     
+    let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
+    let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
+   
+    // "menu" labels
+    let playLabel                                   = SKLabelNode(fontNamed: "Futura")
+    let againLabel                                  = SKLabelNode(fontNamed: "Futura")
+    
+    // debug labels
     let debugLabelPosition                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelsAreEnabled                       = false
     
-    let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
-    let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
-    
-    let playLabel                                   = SKLabelNode(fontNamed: "Futura")
-    let againLabel                                  = SKLabelNode(fontNamed: "Futura")
-    
-    
-    
-    //change these values for different speeds.
+    // speeds
     let minimumHorizontalMovespeed: CGFloat         = 300.0
     let movespeedMultiplier: CGFloat                = 1.1
     let horizontalMoveSpeedAtStart: CGFloat         = 500.0
     let verticalMoveSpeedAtStart: CGFloat           = 300.0
     
-    let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
-    
     let paddleDistanceFromSide: CGFloat             = 50
+    let pointsNeededToWin                           = 7
     
-    let waitduration                                = NSTimeInterval(3)
-    var waitAction: SKAction                        = SKAction()
-    
+    // values the game uses to keep track of things
+    var gameIsRunning                               = false
     var ballIsResetting                             = true
-    
     var paddle1score                                = 0
     var paddle2score                                = 0
-    
     var paddleHitCount                              = 0
-    var previousBallHitTimestamp: NSTimeInterval?
-    
-    var gameIsRunning                               = false
     
     // Enumeration for categorybitmasks
     enum ColliderType: UInt32 {
@@ -77,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         println("LOG | Game booting up")
         
-        //SCENE (SELF)
+        // SCENE (SELF)
         self.backgroundColor                            = SKColor(red: 0.31, green: 0.3, blue: 0.5, alpha: 1)
         self.scaleMode                                  = SKSceneScaleMode.Fill
         self.physicsWorld.gravity                       = CGVectorMake(0, 0)
@@ -88,7 +84,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody.restitution                    = 1
         self.physicsBody.categoryBitMask                = ColliderType.Leveledge.toRaw()
         self.physicsBody.contactTestBitMask             = ColliderType.Ball.toRaw()
-        
         
         // BALL
         ball.size                                       = CGSizeMake(50, 50)
@@ -102,14 +97,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
         ball.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(1, duration: 0.25)))
         
-        //BACKGROUND
+        // BACKGROUND
         background.position                             = CGPointMake(self.frame.midX, self.frame.midY)
         background.zPosition                            = -100
         background.size                                 = self.size
         self.addChild(background)
         
-        
-        //PADDLE 1
+        // PADDLE 1
         paddle1.size                                    = CGSizeMake(32, 150)
         paddle1.position                                = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: self.frame.midY)
         paddle1.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle1.size)
@@ -123,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
         self.addChild(paddle1)
         
-        //PADDLE 2
+        // PADDLE 2
         paddle2.size                                    = CGSizeMake(32, 150)
         paddle2.position                                = CGPoint(x: paddleDistanceFromSide, y: self.frame.midY)
         paddle2.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle2.size)
@@ -137,17 +131,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
         self.addChild(paddle2)
         
-        
-        
-        
-        //WALL 1
+        // WALL 1
         wall1.position                                  = CGPointMake(self.frame.width - (0.5 * wall2.size.width), self.frame.midY)
         wall1.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall1.size)
         wall1.physicsBody.dynamic                       = false
         wall1.physicsBody.categoryBitMask               = ColliderType.Wall1.toRaw()
         self.addChild(wall1)
         
-        //WALL 2
+        // WALL 2
         wall2.position                                  = CGPointMake(0.5 * wall1.size.width, self.frame.midY)
         wall2.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall2.size)
         wall2.physicsBody.dynamic                       = false
@@ -242,7 +233,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelOther.zPosition                       = -10
         self.addChild(debugLabelOther)
         
-        
         //DEBUG LABEL RUNNING
         debugLabelRunning.fontSize                      = 20
         debugLabelRunning.fontColor                     = textColor
@@ -251,13 +241,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelRunning.verticalAlignmentMode         = SKLabelVerticalAlignmentMode.Bottom
         debugLabelRunning.zPosition                     = -10
         self.addChild(debugLabelRunning)
-        
     }
     
-    //Move paddles when user begins touch
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         if gameIsRunning {
+            // move paddles
             for touch: AnyObject in touches {
                 
                 if touch.locationInNode(self).x > self.frame.midX {
@@ -269,6 +258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         } else {
             for touch: AnyObject in touches  {
+                // check if the user presses play
                 if touch.locationInNode(self).x > ( self.frame.midX - 50 ) && touch.locationInNode(self).x < ( self.frame.midX + 50) {
                     println("LOG | Start Game Area pressed, starting game")
                     resetGame()
@@ -285,19 +275,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
         
         if gameIsRunning {
+            // move paddles
             for touch: AnyObject in touches {
-                
                 if touch.locationInNode(self).x > self.frame.midX {
                     paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touch.locationInNode(self).y)
                 } else if touch.locationInNode(self).x < self.frame.midX {
                     paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touch.locationInNode(self).y)
                 }
-                
             }
         }
-        
     }
-    
     
     func didBeginContact(contact: SKPhysicsContact!)  {
         
@@ -370,6 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             debugLabelRunning.text  = ""
         }
         
+        
         // If the ball is moving too slow, increase speed
         if !((ball.physicsBody.velocity.dx > minimumHorizontalMovespeed) || (ball.physicsBody.velocity.dx < -minimumHorizontalMovespeed)) {
             print("LOG | ball moving too slow: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
@@ -377,11 +365,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             println("new speed: \(Int(ball.physicsBody.velocity.dx))")
         }
         
-        
-        if paddle1score >= 7 && gameIsRunning {
+        // If a player has enough points, end the game.
+        if paddle1score >= pointsNeededToWin && gameIsRunning {
             println("LOG | paddle1score is \(paddle1score), he wins the game")
             gameDidEnd(winner:1)
-        } else if paddle2score >= 7 && gameIsRunning {
+        } else if paddle2score >= pointsNeededToWin && gameIsRunning {
             gameDidEnd(winner: 2)
         }
         
@@ -393,12 +381,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameIsRunning = false
             ball.removeFromParent()
             
+            // Update game end labels to winner
             gameEndLabel1.text = (winner == 1 ? "You win!" : "You lose...")
             gameEndLabel1.runAction(SKAction.fadeInWithDuration(1) )
             gameEndLabel1.runAction(SKAction.fadeInWithDuration(1), completion: { () -> Void in
                 self.playLabel.runAction(SKAction.fadeInWithDuration(3))
             })
-            
             
             gameEndLabel2.text = (winner == 2 ? "You win!" : "You lose...")
             gameEndLabel2.runAction(SKAction.fadeInWithDuration(1), completion: { () -> Void in

@@ -151,7 +151,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // PADDLE 1 SCORE LABEL
         paddle1scoreLabel.text                          = "\(self.paddle1score)"
         paddle1scoreLabel.fontSize                      = 45
-        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 66, self.frame.height - 50)
+        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 68, self.frame.height - 50)
+        paddle1scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Left
         paddle1scoreLabel.zPosition                     = -10
         paddle1scoreLabel.fontColor                     = textColor
         self.addChild(paddle1scoreLabel)
@@ -159,7 +160,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // PADDLE 2 SCORE LABEL
         paddle2scoreLabel.text                          = "\(self.paddle2score)"
         paddle2scoreLabel.fontSize                      = 45
-        paddle2scoreLabel.position                      = CGPoint(x: self.frame.midX - 62, y: self.frame.height - 50)
+        paddle2scoreLabel.position                      = CGPoint(x: self.frame.midX - 68, y: self.frame.height - 50)
+        paddle2scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Right
         paddle2scoreLabel.zPosition                     = -10
         paddle2scoreLabel.fontColor                     = textColor
         self.addChild(paddle2scoreLabel)
@@ -168,8 +170,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playLabel.text                                  = "Play"
         playLabel.alpha                                 = 0
         playLabel.fontSize                              = 60
-        playLabel.position                              = CGPoint(x: self.frame.midX + 20, y: 0.2 * self.frame.height)
-        playLabel.horizontalAlignmentMode               = SKLabelHorizontalAlignmentMode.Left
+        playLabel.fontColor                             = textColor
+        playLabel.position                              = CGPoint(x: self.frame.midX + 18, y: self.frame.midY - 135)
+        playLabel.horizontalAlignmentMode               = SKLabelHorizontalAlignmentMode.Right
         playLabel.zPosition                             = -10
         playLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
         self.addChild(playLabel)
@@ -179,15 +182,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         againLabel.text                                 = "again?"
         againLabel.alpha                                = 0
         againLabel.fontSize                             = 60
-        againLabel.position                             = CGPoint(x:self.frame.midX + 20, y: 0.68 * self.frame.height)
+        againLabel.fontColor                            = textColor
+        againLabel.position                             = CGPoint(x:self.frame.midX + 18, y: self.frame.midY + 120)
         againLabel.horizontalAlignmentMode              = SKLabelHorizontalAlignmentMode.Left
         againLabel.zPosition                            = -10
         againLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
         self.addChild(againLabel)
         
+        // GAME END LABEL 1
+        gameEndLabel1.fontSize                          = 60
+        gameEndLabel1.fontColor                         = textColor
+        gameEndLabel1.alpha                             = 0
+        gameEndLabel1.position                          = CGPoint(x: self.frame.size.width * 0.75, y: self.frame.midY)
+        gameEndLabel1.zPosition                         = 300
+        gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
+        self.addChild(gameEndLabel1)
+        
+        // GAME END LABEL 2
+        gameEndLabel2.fontSize                          = 60
+        gameEndLabel2.fontColor                         = textColor
+        gameEndLabel2.alpha                             = 0
+        gameEndLabel2.position                          = CGPoint(x: self.frame.size.width * 0.25, y: self.frame.midY)
+        gameEndLabel2.zPosition                         = 300
+        gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(M_PI / -2.0), duration: 0))
+        self.addChild(gameEndLabel2)
+        
         //DEBUG LABEL POSITION
         debugLabelPosition.text                         = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
         debugLabelPosition.fontSize                     = 20
+        debugLabelPosition.fontColor                    = textColor
         debugLabelPosition.position                     = CGPoint(x: 0, y: 0)
         debugLabelPosition.horizontalAlignmentMode      = SKLabelHorizontalAlignmentMode.Left
         debugLabelPosition.verticalAlignmentMode        = SKLabelVerticalAlignmentMode.Bottom
@@ -197,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //DEBUG LABEL VELOCITY
         debugLabelVelocity.text                         = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
         debugLabelVelocity.fontSize                     = 20
+        debugLabelVelocity.fontColor                    = textColor
         debugLabelVelocity.position                     = CGPoint(x: 0, y: 20)
         debugLabelVelocity.horizontalAlignmentMode      = SKLabelHorizontalAlignmentMode.Left
         debugLabelVelocity.verticalAlignmentMode        = SKLabelVerticalAlignmentMode.Bottom
@@ -205,6 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //DEBUG LABEL OTHER
         debugLabelOther.fontSize                        = 20
+        debugLabelOther.fontColor                       = textColor
         debugLabelOther.position                        = CGPoint(x: 0, y: 42)
         debugLabelOther.horizontalAlignmentMode         = SKLabelHorizontalAlignmentMode.Left
         debugLabelOther.verticalAlignmentMode           = SKLabelVerticalAlignmentMode.Bottom
@@ -214,6 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //DEBUG LABEL RUNNING
         debugLabelRunning.fontSize                      = 20
+        debugLabelRunning.fontColor                     = textColor
         debugLabelRunning.position                      = CGPoint(x: 0, y: 60)
         debugLabelRunning.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Left
         debugLabelRunning.verticalAlignmentMode         = SKLabelVerticalAlignmentMode.Bottom
@@ -359,29 +385,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameIsRunning = false
             ball.removeFromParent()
             
-            gameEndLabel1.fontSize                          = 60
-            gameEndLabel1.alpha                             = 0
-            gameEndLabel1.position                          = CGPoint(x: self.frame.size.width * 0.75, y: self.frame.midY)
-            gameEndLabel1.zPosition                         = 300
-            gameEndLabel1.text                              = (winner == 1 ? "You win!" : "You lose...")
-            self.addChild(gameEndLabel1)
-            gameEndLabel1.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 1))
-            gameEndLabel1.runAction(SKAction.fadeInWithDuration(1))
+            gameEndLabel1.text = (winner == 1 ? "You win!" : "You lose...")
+            gameEndLabel1.runAction(SKAction.fadeInWithDuration(1) )
+            gameEndLabel1.runAction(SKAction.fadeInWithDuration(1), completion: { () -> Void in
+                self.playLabel.runAction(SKAction.fadeInWithDuration(3))
+            })
 
             
-            gameEndLabel2.fontSize                          = 60
-            gameEndLabel2.alpha                             = 0
-            gameEndLabel2.position                          = CGPoint(x: self.frame.size.width * 0.25, y: self.frame.midY)
-            gameEndLabel2.zPosition                         = 300
-            gameEndLabel2.text                              = (winner == 2 ? "You win!" : "You lose...")
-            self.addChild(gameEndLabel2)
-            gameEndLabel2.runAction(SKAction.rotateToAngle(CGFloat(M_PI / -2.0), duration: 1))
-            gameEndLabel2.runAction(SKAction.fadeInWithDuration(1))
-
-            playLabel.runAction(SKAction.fadeInWithDuration(3))
-            againLabel.runAction(SKAction.fadeInWithDuration(3))
+            gameEndLabel2.text = (winner == 2 ? "You win!" : "You lose...")
+            gameEndLabel2.runAction(SKAction.fadeInWithDuration(1), completion: { () -> Void in
+                self.againLabel.runAction(SKAction.fadeInWithDuration(3))
+            })
         }
-
 
     }
     
@@ -411,7 +426,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1scoreLabel.text = "\(paddle1score)"
         paddle2score = 0
         paddle2scoreLabel.text = "\(paddle2score)"
-        gameEndLabel1.removeFromParent()
-        gameEndLabel2.removeFromParent()
+        
+        
+        gameEndLabel1.runAction(SKAction.fadeOutWithDuration(1))
+        gameEndLabel2.runAction(SKAction.fadeOutWithDuration(1))
     }
 }

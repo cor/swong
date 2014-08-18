@@ -10,7 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    
+    // important gameplay objects
     let ball                                        = SKSpriteNode(imageNamed: "ball")
     let paddle1                                     = SKSpriteNode(imageNamed: "paddle1")
     let paddle2                                     = SKSpriteNode(imageNamed: "paddle2")
@@ -41,9 +41,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelsAreEnabled                       = true
     
     // speeds
-    let minimumHorizontalMovespeed: CGFloat         = 300.0
-    let movespeedMultiplier: CGFloat                = 1.1
+    let minimumHorizontalVelocity: CGFloat          = 300.0
+    let minimumVerticalVelocity: CGFloat            = 100.0
+    let horizontalVelocityMultiplier: CGFloat       = 1.1
+    let verticalVelocityMultiplier: CGFloat         = 1.05
+    let horizontalTooSlowMultiplier: CGFloat        = 1.5
+    let verticalTooSlowMultiplier: CGFloat          = 1.5
     let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, 100, -100, -200, -300, -400, -500]
+    let possibleStartDx: [CGFloat]                  = [400, 500, 600, 700]
     
     let paddleDistanceFromSide: CGFloat             = 50
     let pointsNeededToWin                           = 7
@@ -55,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var paddle2score                                = 0
     var paddleHitCount                              = 0
     
-    // Enumeration for categorybitmasks
+    // Enumeration for categorybitmasks (contact & collisions)
     enum ColliderType: UInt32 {
         case Ball = 1
         case Paddle = 2
@@ -293,7 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody.velocity.dx))  --> ")
             
             ++paddleHitCount
-            ball.physicsBody.velocity.dx *= movespeedMultiplier
+            ball.physicsBody.velocity.dx *= horizontalVelocityMultiplier
             
             println("new speed: \(Int(ball.physicsBody.velocity.dx))")
             
@@ -330,9 +335,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody.velocity.dy)) ")
             
             if ball.position.y > self.frame.midY {
-                ball.physicsBody.velocity.dy *= movespeedMultiplier
+                ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
             } else if ball.position.y < self.frame.midY {
-                ball.physicsBody.velocity.dy *= movespeedMultiplier
+                ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
             }
             
             println("--> new speed: \(ball.physicsBody.velocity.dy)")
@@ -341,9 +346,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(currentTime: CFTimeInterval) {
+
+        // If a player has enough points, end the game.
+        if paddle1score >= pointsNeededToWin && gameIsRunning {
+            println("LOG | paddle1score is \(paddle1score), he wins the game")
+            gameDidEnd(winner:1)
+        } else if paddle2score >= pointsNeededToWin && gameIsRunning {
+            gameDidEnd(winner: 2)
+        }
         
+        // If the ball is moving too slow horizontally, increase speed
+        if !((ball.physicsBody.velocity.dx > minimumHorizontalVelocity) || (ball.physicsBody.velocity.dx < -minimumHorizontalVelocity)) {
+            
+            // If the ball isn't moving horizontal at all, increase speed by a fifth of the minimumspeed
+            if !((ball.physicsBody.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody.velocity.dx < -(minimumHorizontalVelocity / 10))) {
+                println("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
+                ball.physicsBody.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
+            }
+            
+            print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
+            ball.physicsBody.velocity.dx *= horizontalTooSlowMultiplier
+            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
+        }
+        
+        // If the ball is moving too slow vertically, increase speed
+        if !((ball.physicsBody.velocity.dy > minimumVerticalVelocity) || (ball.physicsBody.velocity.dy < -minimumVerticalVelocity)) {
+            
+            // If the ball isn't moving vertical at all, increase speed by a fifth of the minimumVerticalVelocity
+            if !((ball.physicsBody.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody.velocity.dy < -(minimumVerticalVelocity / 10))) {
+                println("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
+                ball.physicsBody.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
+            }
+            
+            print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody.velocity.dy)), increasing speed --> ")
+            ball.physicsBody.velocity.dy *= verticalTooSlowMultiplier
+            println("new speed: \(Int(ball.physicsBody.velocity.dy))")
+        }
+                
         // Update debug labels
-        
         if debugLabelsAreEnabled {
             debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
             debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
@@ -356,21 +396,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             debugLabelRunning.text  = ""
         }
         
-        // If the ball is moving too slow, increase speed
-        if !((ball.physicsBody.velocity.dx > minimumHorizontalMovespeed) || (ball.physicsBody.velocity.dx < -minimumHorizontalMovespeed)) {
-            print("LOG | ball moving too slow: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
-            ball.physicsBody.velocity.dx *= 1.5
-            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
-        }
-        
-        // If a player has enough points, end the game.
-        if paddle1score >= pointsNeededToWin && gameIsRunning {
-            println("LOG | paddle1score is \(paddle1score), he wins the game")
-            gameDidEnd(winner:1)
-        } else if paddle2score >= pointsNeededToWin && gameIsRunning {
-            gameDidEnd(winner: 2)
-        }
-        
     }
     
     func gameDidEnd(#winner: Int) {
@@ -379,9 +404,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameIsRunning = false
             ball.removeFromParent()
             
-            // Update game end labels to winner
+            // Update game end labels to "You win! / You lose..."
             gameEndLabel1.text = (winner == 1 ? "You win!" : "You lose...")
-            gameEndLabel1.runAction(SKAction.fadeInWithDuration(1) )
             gameEndLabel1.runAction(SKAction.fadeInWithDuration(1), completion: { () -> Void in
                 self.playLabel.runAction(SKAction.fadeInWithDuration(3))
             })
@@ -394,24 +418,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    //get random vector (used at ball reset)
+    //get new vector for ball (used at resetBall)
     func newBallVector(var forPlayer player: Int) -> CGVector {
-        
-        var dx: CGFloat = 0
-        var dy: CGFloat = 0
-        
         
         if !(player == 1 || player == 2) {
             println("ERR | Invalid player argument at newBallVector() --> using player 1 instead")
+            player = 1
         }
         
-        if player == 1 {
-            dx = 500
-        } else if player == 2 {
-            dx = -500
-        }
+        var dx: CGFloat = possibleStartDx[Int(arc4random_uniform(UInt32(possibleStartDx.count)))] * (player == 1 ? +1 : -1)
+        var dy: CGFloat = possibleStartDy[Int(arc4random_uniform(UInt32(possibleStartDy.count)))]
         
-        dy = possibleStartDy[Int(arc4random_uniform(UInt32(possibleStartDy.count)))]
         println("LOG | new random ball vector --> dx: \(dx), dy: \(dy)")
         return CGVector(dx: dx, dy: dy)
     }
@@ -438,10 +455,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resetBall()
         
         paddle1score = 0
-        paddle1scoreLabel.text = "\(paddle1score)"
         paddle2score = 0
-        paddle2scoreLabel.text = "\(paddle2score)"
         
+        paddle1scoreLabel.text = "\(paddle1score)"
+        paddle2scoreLabel.text = "\(paddle2score)"
         
         gameEndLabel1.runAction(SKAction.fadeOutWithDuration(1))
         gameEndLabel2.runAction(SKAction.fadeOutWithDuration(1))

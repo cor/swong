@@ -382,7 +382,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ball.physicsBody.velocity.dy *= verticalTooSlowMultiplier
             println("new speed: \(Int(ball.physicsBody.velocity.dy))")
         }
-                
+        
         // Update debug labels
         if debugLabelsAreEnabled {
             debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
@@ -436,9 +436,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func resetBall() {
         println("LOG | resetting ball")
         //run reset action
-        ball.runAction(SKAction.moveTo(CGPointMake(self.frame.midX, self.frame.midY), duration: 1), completion: { () -> Void in
+        
+        let part1 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.height - ( ball.size.height )), duration: 1)
+        let part2 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: ball.size.height ), duration: 1)
+        let part3 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 2)
+        let part4 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 1)
+        
+        let sequence = SKAction.sequence([part1, part2, part3, part4])
+        
+        ball.runAction(sequence, completion: { () -> Void in
             self.ballIsResetting = false
         })
+        
         paddleHitCount = 0
         
         // taking turns on getting the ball first

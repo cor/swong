@@ -23,8 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
     
     // score labels
-    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Futura")
-    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Futura")
+    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
     
     let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
     let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
@@ -43,8 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // speeds
     let minimumHorizontalMovespeed: CGFloat         = 300.0
     let movespeedMultiplier: CGFloat                = 1.1
-    let horizontalMoveSpeedAtStart: CGFloat         = 500.0
-    let verticalMoveSpeedAtStart: CGFloat           = 300.0
+    let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, 100, -100, -200, -300, -400, -500]
     
     let paddleDistanceFromSide: CGFloat             = 50
     let pointsNeededToWin                           = 7
@@ -89,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.size                                       = CGSizeMake(50, 50)
         ball.position                                   = CGPointMake(self.frame.midX, self.frame.midY)
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
-        ball.physicsBody.velocity                       = CGVectorMake(CGFloat(horizontalMoveSpeedAtStart), CGFloat(verticalMoveSpeedAtStart))
+        ball.physicsBody.velocity                       = newBallVector(forPlayer: 1)
         ball.physicsBody.dynamic                        = true
         ball.physicsBody.allowsRotation                 = true
         ball.physicsBody.linearDamping                  = 0
@@ -336,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.physicsBody.velocity.dy *= movespeedMultiplier
             }
             
-            println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
+            println("--> new speed: \(ball.physicsBody.velocity.dy)")
         }
         
     }
@@ -356,7 +355,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             debugLabelOther.text    = ""
             debugLabelRunning.text  = ""
         }
-        
         
         // If the ball is moving too slow, increase speed
         if !((ball.physicsBody.velocity.dx > minimumHorizontalMovespeed) || (ball.physicsBody.velocity.dx < -minimumHorizontalMovespeed)) {
@@ -413,9 +411,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             dx = -500
         }
         
-        let possibleStartDx: [CGFloat] = [500, 400, 300, 200, 100, -100, -200, -300, -400, -500]
-        dy = possibleStartDx[Int(arc4random_uniform(UInt32(possibleStartDx.count)))]
-       
+        dy = possibleStartDy[Int(arc4random_uniform(UInt32(possibleStartDy.count)))]
         println("LOG | new random ball vector --> dx: \(dx), dy: \(dy)")
         return CGVector(dx: dx, dy: dy)
     }

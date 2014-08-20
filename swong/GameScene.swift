@@ -43,11 +43,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // speeds
     let minimumHorizontalVelocity: CGFloat          = 300.0
     let minimumVerticalVelocity: CGFloat            = 100.0
-    let horizontalVelocityMultiplier: CGFloat       = 1.100
-    let verticalVelocityMultiplier: CGFloat         = 1.075
+    let horizontalVelocityMultiplier: CGFloat       = 1.05
+    let verticalVelocityMultiplier: CGFloat         = 1.05
     let horizontalTooSlowMultiplier: CGFloat        = 1.5
     let verticalTooSlowMultiplier: CGFloat          = 1.5
-    let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, -200, -300, -400, -500]
+    let possibleStartDy: [CGFloat]                  = [500, 400, 300, -300, -400, -500]
     let possibleStartDx: [CGFloat]                  = [500, 550, 600, 650, 700]
     
     let paddleDistanceFromSide: CGFloat             = 50
@@ -249,6 +249,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelRunning)
     }
     
+    func movePaddle(paddle:Int, toY y: CGFloat) {
+        if paddle == 1 {
+            paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: y)
+        } else if paddle == 2 {
+            paddle2.position = CGPoint(x: paddleDistanceFromSide, y: y)
+        } else {
+            println("ERR | Invalid parameter: paddle at movePaddle() call")
+        }
+    }
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         if gameIsRunning {
@@ -263,11 +273,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let minHeight = paddle1.size.height / 2
                     
                     if touchLocation.y > maxHeight {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: maxHeight)
+                        movePaddle(1, toY: maxHeight)
                     } else if touchLocation.y < minHeight {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: minHeight)
+                        movePaddle(1, toY: minHeight)
                     } else {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touchLocation.y)
+                        movePaddle(1, toY: touchLocation.y)
                     }
                     
                 } else if touchLocation.x < self.frame.midX {
@@ -276,11 +286,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let minHeight = paddle2.size.height / 2
                     
                     if touchLocation.y > maxHeight {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: maxHeight)
+                        movePaddle(2, toY: maxHeight)
                     } else if touchLocation.y < minHeight {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: minHeight)
+                        movePaddle(2, toY: minHeight)
                     } else {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touchLocation.y)
+                        movePaddle(2, toY: touchLocation.y)
                     }
                 }
             }
@@ -314,11 +324,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let minHeight = paddle1.size.height / 2
                     
                     if touchLocation.y > maxHeight {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: maxHeight)
+                        movePaddle(1, toY: maxHeight)
                     } else if touchLocation.y < minHeight {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: minHeight)
+                        movePaddle(1, toY: minHeight)
                     } else {
-                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touchLocation.y)
+                        movePaddle(1, toY: touchLocation.y)
                     }
                     
                 } else if touchLocation.x < self.frame.midX {
@@ -327,11 +337,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let minHeight = paddle2.size.height / 2
                     
                     if touchLocation.y > maxHeight {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: maxHeight)
+                        movePaddle(2, toY: maxHeight)
                     } else if touchLocation.y < minHeight {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: minHeight)
+                        movePaddle(2, toY: minHeight)
                     } else {
-                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touchLocation.y)
+                        movePaddle(2, toY: touchLocation.y)
                     }
                 }
             }

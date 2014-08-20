@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelsAreEnabled                       = true
+    let debugLabelsAreEnabled                       = false
     
     // speeds
     let minimumHorizontalVelocity: CGFloat          = 300.0
@@ -340,7 +340,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
             }
             
-            println("--> new speed: \(ball.physicsBody.velocity.dy)")
+            println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
         }
         
     }
@@ -441,9 +441,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println("LOG | resetting ball")
         //run reset action
         
-        let part1 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.height - ( ball.size.height )), duration: 1)
+        let part1 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.height - ball.size.height ), duration: 1)
+        part1.timingMode = SKActionTimingMode.EaseInEaseOut
         let part2 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: ball.size.height ), duration: 1)
+        part2.timingMode = SKActionTimingMode.EaseInEaseOut
         let part3 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 2)
+        part3.timingMode = SKActionTimingMode.EaseInEaseOut
         let part4 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 1)
         
         let sequence = SKAction.sequence([part1, part2, part3, part4])
@@ -461,8 +464,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
         
         paddleHitCount = 0
-        
-        
         
     }
     

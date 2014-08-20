@@ -36,7 +36,7 @@
 /* Begin PBXFileReference section */
 		8719F51D199FA34800A38CE3 /* ball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball.png; sourceTree = "<group>"; };
 		878D357B198A77A00000B58D /* devbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = devbox.png; sourceTree = "<group>"; };
-		879F593F1987FE2C0020A1B9 /* swong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swong.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		879F593F1987FE2C0020A1B9 /* Swong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Swong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		879F59431987FE2C0020A1B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		879F59441987FE2C0020A1B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		879F59461987FE2C0020A1B9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 		879F59401987FE2C0020A1B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				879F593F1987FE2C0020A1B9 /* swong.app */,
+				879F593F1987FE2C0020A1B9 /* Swong.app */,
 				879F59551987FE2C0020A1B9 /* swongTests.xctest */,
 			);
 			name = Products;
@@ -153,7 +153,7 @@
 			);
 			name = swong;
 			productName = swong;
-			productReference = 879F593F1987FE2C0020A1B9 /* swong.app */;
+			productReference = 879F593F1987FE2C0020A1B9 /* Swong.app */;
 			productType = "com.apple.product-type.application";
 		};
 		879F59541987FE2C0020A1B9 /* swongTests */ = {
@@ -364,7 +364,7 @@
 				INFOPLIST_FILE = swong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Swong;
 			};
 			name = Debug;
 		};
@@ -376,7 +376,7 @@
 				INFOPLIST_FILE = swong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Swong;
 			};
 			name = Release;
 		};

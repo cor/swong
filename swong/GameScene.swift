@@ -355,32 +355,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             gameDidEnd(winner: 2)
         }
         
-        // If the ball is moving too slow horizontally, increase speed
-        if !((ball.physicsBody.velocity.dx > minimumHorizontalVelocity) || (ball.physicsBody.velocity.dx < -minimumHorizontalVelocity)) {
-            
-            // If the ball isn't moving horizontal at all, increase speed by a fifth of the minimumspeed
-            if !((ball.physicsBody.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody.velocity.dx < -(minimumHorizontalVelocity / 10))) {
-                println("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
-                ball.physicsBody.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
-            }
-            
-            print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
-            ball.physicsBody.velocity.dx *= horizontalTooSlowMultiplier
-            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
-        }
+        // If the ball is not resetting, apply reset checks
+        if !ballIsResetting {
         
-        // If the ball is moving too slow vertically, increase speed
-        if !((ball.physicsBody.velocity.dy > minimumVerticalVelocity) || (ball.physicsBody.velocity.dy < -minimumVerticalVelocity)) {
-            
-            // If the ball isn't moving vertical at all, increase speed by a fifth of the minimumVerticalVelocity
-            if !((ball.physicsBody.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody.velocity.dy < -(minimumVerticalVelocity / 10))) {
-                println("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
-                ball.physicsBody.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
+            // If the ball is moving too slow horizontally, increase speed
+            if !((ball.physicsBody.velocity.dx > minimumHorizontalVelocity) || (ball.physicsBody.velocity.dx < -minimumHorizontalVelocity)) {
+                
+                // If the ball isn't moving horizontal at all, increase speed by a fifth of the minimumspeed
+                if !((ball.physicsBody.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody.velocity.dx < -(minimumHorizontalVelocity / 10))) {
+                    println("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
+                    ball.physicsBody.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
+                }
+                
+                print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
+                ball.physicsBody.velocity.dx *= horizontalTooSlowMultiplier
+                println("new speed: \(Int(ball.physicsBody.velocity.dx))")
             }
             
-            print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody.velocity.dy)), increasing speed --> ")
-            ball.physicsBody.velocity.dy *= verticalTooSlowMultiplier
-            println("new speed: \(Int(ball.physicsBody.velocity.dy))")
+            // If the ball is moving too slow vertically, increase speed
+            if !((ball.physicsBody.velocity.dy > minimumVerticalVelocity) || (ball.physicsBody.velocity.dy < -minimumVerticalVelocity)) {
+                
+                // If the ball isn't moving vertical at all, increase speed by a fifth of the minimumVerticalVelocity
+                if !((ball.physicsBody.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody.velocity.dy < -(minimumVerticalVelocity / 10))) {
+                    println("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
+                    ball.physicsBody.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
+                }
+                
+                print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody.velocity.dy)), increasing speed --> ")
+                ball.physicsBody.velocity.dy *= verticalTooSlowMultiplier
+                println("new speed: \(Int(ball.physicsBody.velocity.dy))")
+            }
         }
         
         // Update debug labels
@@ -444,18 +448,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let sequence = SKAction.sequence([part1, part2, part3, part4])
         
+        ball.physicsBody.velocity = CGVector(0, 0)
+        
         ball.runAction(sequence, completion: { () -> Void in
+            // taking turns on getting the ball first
+            if ( self.paddle1score + self.paddle2score ) % 2 == 0 {
+                self.ball.physicsBody.velocity = self.newBallVector(forPlayer: 1)
+            } else {
+                self.ball.physicsBody.velocity = self.newBallVector(forPlayer: 2)
+            }
             self.ballIsResetting = false
         })
         
         paddleHitCount = 0
         
-        // taking turns on getting the ball first
-        if ( paddle1score + paddle2score ) % 2 == 0 {
-            ball.physicsBody.velocity = newBallVector(forPlayer: 1)
-        } else {
-            ball.physicsBody.velocity = newBallVector(forPlayer: 2)
-        }
+        
         
     }
     

@@ -47,8 +47,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let verticalVelocityMultiplier: CGFloat         = 1.05
     let horizontalTooSlowMultiplier: CGFloat        = 1.5
     let verticalTooSlowMultiplier: CGFloat          = 1.5
-    let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, 100, -100, -200, -300, -400, -500]
-    let possibleStartDx: [CGFloat]                  = [400, 500, 600, 700]
+    let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, -200, -300, -400, -500]
+    let possibleStartDx: [CGFloat]                  = [500, 550, 600, 650, 700]
     
     let paddleDistanceFromSide: CGFloat             = 50
     let pointsNeededToWin                           = 7

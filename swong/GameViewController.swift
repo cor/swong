@@ -44,7 +44,7 @@ class GameViewController: UIViewController {
             
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = SKSceneScaleMode.ResizeFill
-//            scene.size = skView.bounds.size
+            scene.size = CGSize(width: skView.bounds.size.width * 2, height: skView.bounds.size.height * 2)
             
             skView.presentScene(scene)
         }

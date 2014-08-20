@@ -23,8 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
     
     // score labels
-    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
-    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Helvetica")
+    let paddle1scoreLabel                           = SKLabelNode(fontNamed: "Futura")
+    let paddle2scoreLabel                           = SKLabelNode(fontNamed: "Futura")
     
     let gameEndLabel1                               = SKLabelNode(fontNamed: "Futura")
     let gameEndLabel2                               = SKLabelNode(fontNamed: "Futura")
@@ -34,17 +34,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let againLabel                                  = SKLabelNode(fontNamed: "Futura")
     
     // debug labels
-    let debugLabelPosition                          = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelVelocity                          = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelOther                             = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelRunning                           = SKLabelNode(fontNamed: "Helvetica")
-    let debugLabelsAreEnabled                       = false
+    let debugLabelPosition                          = SKLabelNode(fontNamed: "Futura")
+    let debugLabelVelocity                          = SKLabelNode(fontNamed: "Futura")
+    let debugLabelOther                             = SKLabelNode(fontNamed: "Futura")
+    let debugLabelRunning                           = SKLabelNode(fontNamed: "Futura")
+    let debugLabelsAreEnabled                       = true
     
     // speeds
     let minimumHorizontalVelocity: CGFloat          = 300.0
     let minimumVerticalVelocity: CGFloat            = 100.0
-    let horizontalVelocityMultiplier: CGFloat       = 1.1
-    let verticalVelocityMultiplier: CGFloat         = 1.05
+    let horizontalVelocityMultiplier: CGFloat       = 1.100
+    let verticalVelocityMultiplier: CGFloat         = 1.075
     let horizontalTooSlowMultiplier: CGFloat        = 1.5
     let verticalTooSlowMultiplier: CGFloat          = 1.5
     let possibleStartDy: [CGFloat]                  = [500, 400, 300, 200, -200, -300, -400, -500]
@@ -90,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody.contactTestBitMask             = ColliderType.Ball.toRaw()
         
         // BALL
-        ball.size                                       = CGSizeMake(50, 50)
+        ball.size                                       = CGSizeMake(45, 45)
         ball.position                                   = CGPointMake(self.frame.midX, self.frame.midY)
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
         ball.physicsBody.velocity                       = newBallVector(forPlayer: 1)
@@ -152,8 +152,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // PADDLE 1 SCORE LABEL
         paddle1scoreLabel.text                          = "\(self.paddle1score)"
         paddle1scoreLabel.fontSize                      = 45
-        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 68, self.frame.height - 50)
-        paddle1scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Left
+        paddle1scoreLabel.position                      = CGPointMake(self.frame.midX + 75, self.frame.height - 50)
+        paddle1scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Center
         paddle1scoreLabel.zPosition                     = -10
         paddle1scoreLabel.fontColor                     = textColor
         self.addChild(paddle1scoreLabel)
@@ -161,8 +161,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // PADDLE 2 SCORE LABEL
         paddle2scoreLabel.text                          = "\(self.paddle2score)"
         paddle2scoreLabel.fontSize                      = 45
-        paddle2scoreLabel.position                      = CGPoint(x: self.frame.midX - 68, y: self.frame.height - 50)
-        paddle2scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Right
+        paddle2scoreLabel.position                      = CGPoint(x: self.frame.midX - 75, y: self.frame.height - 50)
+        paddle2scoreLabel.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Center
         paddle2scoreLabel.zPosition                     = -10
         paddle2scoreLabel.fontColor                     = textColor
         self.addChild(paddle2scoreLabel)
@@ -172,7 +172,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playLabel.alpha                                 = 0
         playLabel.fontSize                              = 60
         playLabel.fontColor                             = textColor
-        playLabel.position                              = CGPoint(x: self.frame.midX + 18, y: self.frame.midY - 135)
+        playLabel.position                              = CGPoint(x: self.frame.midX, y: self.frame.midY - 120)
+        playLabel.verticalAlignmentMode                 = SKLabelVerticalAlignmentMode.Center
         playLabel.horizontalAlignmentMode               = SKLabelHorizontalAlignmentMode.Right
         playLabel.zPosition                             = -10
         playLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
@@ -184,7 +185,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         againLabel.alpha                                = 0
         againLabel.fontSize                             = 60
         againLabel.fontColor                            = textColor
-        againLabel.position                             = CGPoint(x:self.frame.midX + 18, y: self.frame.midY + 120)
+        againLabel.position                             = CGPoint(x:self.frame.midX, y: self.frame.midY + 110)
+        againLabel.verticalAlignmentMode                = SKLabelVerticalAlignmentMode.Center
         againLabel.horizontalAlignmentMode              = SKLabelHorizontalAlignmentMode.Left
         againLabel.zPosition                            = -10
         againLabel.runAction(SKAction.rotateToAngle(CGFloat(M_PI / 2.0), duration: 0))
@@ -212,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelPosition.text                         = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
         debugLabelPosition.fontSize                     = 20
         debugLabelPosition.fontColor                    = textColor
-        debugLabelPosition.position                     = CGPoint(x: 0, y: 0)
+        debugLabelPosition.position                     = CGPoint(x: 2, y: 0)
         debugLabelPosition.horizontalAlignmentMode      = SKLabelHorizontalAlignmentMode.Left
         debugLabelPosition.verticalAlignmentMode        = SKLabelVerticalAlignmentMode.Bottom
         debugLabelPosition.zPosition                    = -10
@@ -222,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         debugLabelVelocity.text                         = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
         debugLabelVelocity.fontSize                     = 20
         debugLabelVelocity.fontColor                    = textColor
-        debugLabelVelocity.position                     = CGPoint(x: 0, y: 20)
+        debugLabelVelocity.position                     = CGPoint(x: 2, y: 20)
         debugLabelVelocity.horizontalAlignmentMode      = SKLabelHorizontalAlignmentMode.Left
         debugLabelVelocity.verticalAlignmentMode        = SKLabelVerticalAlignmentMode.Bottom
         debugLabelVelocity.zPosition                    = -10
@@ -231,7 +233,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //DEBUG LABEL OTHER
         debugLabelOther.fontSize                        = 20
         debugLabelOther.fontColor                       = textColor
-        debugLabelOther.position                        = CGPoint(x: 0, y: 42)
+        debugLabelOther.position                        = CGPoint(x: 2, y: 44)
         debugLabelOther.horizontalAlignmentMode         = SKLabelHorizontalAlignmentMode.Left
         debugLabelOther.verticalAlignmentMode           = SKLabelVerticalAlignmentMode.Bottom
         debugLabelOther.zPosition                       = -10
@@ -240,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //DEBUG LABEL RUNNING
         debugLabelRunning.fontSize                      = 20
         debugLabelRunning.fontColor                     = textColor
-        debugLabelRunning.position                      = CGPoint(x: 0, y: 60)
+        debugLabelRunning.position                      = CGPoint(x: 2, y: 64)
         debugLabelRunning.horizontalAlignmentMode       = SKLabelHorizontalAlignmentMode.Left
         debugLabelRunning.verticalAlignmentMode         = SKLabelVerticalAlignmentMode.Bottom
         debugLabelRunning.zPosition                     = -10

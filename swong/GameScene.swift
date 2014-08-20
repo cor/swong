@@ -254,13 +254,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
+                let touchLocation = touch.locationInNode(self)
+
+                if touchLocation.x > self.frame.midX {
                 
-                if touch.locationInNode(self).x > self.frame.midX {
-                    paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touch.locationInNode(self).y)
-                } else if touch.locationInNode(self).x < self.frame.midX {
-                    paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touch.locationInNode(self).y)
+                    // prevent too high or too low paddle locations
+                    let maxHeight = self.frame.height - (paddle1.size.height / 2)
+                    let minHeight = paddle1.size.height / 2
+                    
+                    if touchLocation.y > maxHeight {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: maxHeight)
+                    } else if touchLocation.y < minHeight {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: minHeight)
+                    } else {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touchLocation.y)
+                    }
+                    
+                } else if touchLocation.x < self.frame.midX {
+                    
+                    let maxHeight = self.frame.height - (paddle2.size.height / 2)
+                    let minHeight = paddle2.size.height / 2
+                    
+                    if touchLocation.y > maxHeight {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: maxHeight)
+                    } else if touchLocation.y < minHeight {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: minHeight)
+                    } else {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touchLocation.y)
+                    }
                 }
-                
             }
         } else {
             for touch: AnyObject in touches  {
@@ -283,10 +305,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
-                if touch.locationInNode(self).x > self.frame.midX {
-                    paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touch.locationInNode(self).y)
-                } else if touch.locationInNode(self).x < self.frame.midX {
-                    paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touch.locationInNode(self).y)
+                let touchLocation = touch.locationInNode(self)
+                
+                if touchLocation.x > self.frame.midX {
+                    
+                    // prevent too high or too low paddle locations
+                    let maxHeight = self.frame.height - (paddle1.size.height / 2)
+                    let minHeight = paddle1.size.height / 2
+                    
+                    if touchLocation.y > maxHeight {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: maxHeight)
+                    } else if touchLocation.y < minHeight {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: minHeight)
+                    } else {
+                        paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: touchLocation.y)
+                    }
+                    
+                } else if touchLocation.x < self.frame.midX {
+                    
+                    let maxHeight = self.frame.height - (paddle2.size.height / 2)
+                    let minHeight = paddle2.size.height / 2
+                    
+                    if touchLocation.y > maxHeight {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: maxHeight)
+                    } else if touchLocation.y < minHeight {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: minHeight)
+                    } else {
+                        paddle2.position = CGPoint(x: paddleDistanceFromSide, y: touchLocation.y)
+                    }
                 }
             }
         }
@@ -297,13 +343,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Increase horizontal speed when ball hits paddle
         if contact.bodyA.categoryBitMask == ColliderType.Paddle.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
-            print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody.velocity.dx))  --> ")
-            
-            ++paddleHitCount
-            ball.physicsBody.velocity.dx *= horizontalVelocityMultiplier
-            
-            println("new speed: \(Int(ball.physicsBody.velocity.dx))")
-            
+            if !ballIsResetting {
+                print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody.velocity.dx))  --> ")
+                ++paddleHitCount
+                ball.physicsBody.velocity.dx *= horizontalVelocityMultiplier
+                println("new speed: \(Int(ball.physicsBody.velocity.dx))")
+            }
         }
         
         //Increase paddle2 score when ball hits wall1
@@ -320,7 +365,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Increase paddle1 score when ball hits wall2
         if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
-            
             if !ballIsResetting {
                 ballIsResetting = true
                 println("LOG | Ball hit wall2, increasing paddle 1 score: \(paddle1score) --> new score: \(paddle1score + 1)")
@@ -328,21 +372,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 paddle1scoreLabel.text = "\(paddle1score)"
                 resetBall()
             }
-            
         }
         
         // Increase ball.velocity.dx on wallbounce
         if contact.bodyA.categoryBitMask == ColliderType.Leveledge.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
-            
-            print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody.velocity.dy)) ")
-            
-            if ball.position.y > self.frame.midY {
-                ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
-            } else if ball.position.y < self.frame.midY {
-                ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
+
+            if !ballIsResetting {
+                print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody.velocity.dy)) ")
+               
+                if ball.position.y > self.frame.midY {
+                    ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
+                } else if ball.position.y < self.frame.midY {
+                    ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
+                }
+                
+                println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
             }
-            
-            println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
         }
         
     }

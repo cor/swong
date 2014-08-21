@@ -249,6 +249,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelRunning)
     }
     
+    func movePaddleToTouch(touchLocation: CGPoint) {
+        
+        if touchLocation.x > self.frame.midX {
+            
+            // prevent too high or too low paddle locations
+            let maxHeight = self.frame.height - (paddle1.size.height / 2)
+            let minHeight = paddle1.size.height / 2
+            
+            if touchLocation.y > maxHeight {
+                movePaddle(1, toY: maxHeight)
+            } else if touchLocation.y < minHeight {
+                movePaddle(1, toY: minHeight)
+            } else {
+                movePaddle(1, toY: touchLocation.y)
+            }
+            
+        } else if touchLocation.x < self.frame.midX {
+            
+            let maxHeight = self.frame.height - (paddle2.size.height / 2)
+            let minHeight = paddle2.size.height / 2
+            
+            if touchLocation.y > maxHeight {
+                movePaddle(2, toY: maxHeight)
+            } else if touchLocation.y < minHeight {
+                movePaddle(2, toY: minHeight)
+            } else {
+                movePaddle(2, toY: touchLocation.y)
+            }
+        }
+    }
+    
     func movePaddle(paddle:Int, toY y: CGFloat) {
         if paddle == 1 {
             paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: y)
@@ -264,35 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
-                let touchLocation = touch.locationInNode(self)
-
-                if touchLocation.x > self.frame.midX {
-                
-                    // prevent too high or too low paddle locations
-                    let maxHeight = self.frame.height - (paddle1.size.height / 2)
-                    let minHeight = paddle1.size.height / 2
-                    
-                    if touchLocation.y > maxHeight {
-                        movePaddle(1, toY: maxHeight)
-                    } else if touchLocation.y < minHeight {
-                        movePaddle(1, toY: minHeight)
-                    } else {
-                        movePaddle(1, toY: touchLocation.y)
-                    }
-                    
-                } else if touchLocation.x < self.frame.midX {
-                    
-                    let maxHeight = self.frame.height - (paddle2.size.height / 2)
-                    let minHeight = paddle2.size.height / 2
-                    
-                    if touchLocation.y > maxHeight {
-                        movePaddle(2, toY: maxHeight)
-                    } else if touchLocation.y < minHeight {
-                        movePaddle(2, toY: minHeight)
-                    } else {
-                        movePaddle(2, toY: touchLocation.y)
-                    }
-                }
+                movePaddleToTouch(touch.locationInNode(self))
             }
         } else {
             for touch: AnyObject in touches  {
@@ -315,35 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
-                let touchLocation = touch.locationInNode(self)
-                
-                if touchLocation.x > self.frame.midX {
-                    
-                    // prevent too high or too low paddle locations
-                    let maxHeight = self.frame.height - (paddle1.size.height / 2)
-                    let minHeight = paddle1.size.height / 2
-                    
-                    if touchLocation.y > maxHeight {
-                        movePaddle(1, toY: maxHeight)
-                    } else if touchLocation.y < minHeight {
-                        movePaddle(1, toY: minHeight)
-                    } else {
-                        movePaddle(1, toY: touchLocation.y)
-                    }
-                    
-                } else if touchLocation.x < self.frame.midX {
-                    
-                    let maxHeight = self.frame.height - (paddle2.size.height / 2)
-                    let minHeight = paddle2.size.height / 2
-                    
-                    if touchLocation.y > maxHeight {
-                        movePaddle(2, toY: maxHeight)
-                    } else if touchLocation.y < minHeight {
-                        movePaddle(2, toY: minHeight)
-                    } else {
-                        movePaddle(2, toY: touchLocation.y)
-                    }
-                }
+                movePaddleToTouch(touch.locationInNode(self))
             }
         }
     }

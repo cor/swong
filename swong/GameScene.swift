@@ -249,6 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelRunning)
     }
     
+    // the point.x determains wich paddle to move and the point.y determains on what height to move that paddle
     func movePaddleToPoint(point:CGPoint) {
         
         func movePaddle(paddle:Int, toY y: CGFloat) {
@@ -289,7 +290,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
     
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -475,14 +475,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         println("LOG | resetting ball")
         //run reset action
         
-        let part1 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.height - ball.size.height ), duration: 1)
-        part1.timingMode = SKActionTimingMode.EaseInEaseOut
-        let part2 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: ball.size.height ), duration: 1)
-        part2.timingMode = SKActionTimingMode.EaseInEaseOut
-        let part3 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 2)
-        part3.timingMode = SKActionTimingMode.EaseInEaseOut
-        let part4 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 1)
         
+        let part1 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.height - ball.size.height ), duration: 1)
+        let part2 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: ball.size.height ), duration: 1)
+        let part3 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 2)
+        let part4 = SKAction.moveTo(CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 1)
+
+        // apply easings for smooth movement
+        part1.timingMode = SKActionTimingMode.EaseInEaseOut
+        part2.timingMode = SKActionTimingMode.EaseInEaseOut
+        part3.timingMode = SKActionTimingMode.EaseInEaseOut
+
         let sequence = SKAction.sequence([part1, part2, part3, part4])
         
         ball.physicsBody.velocity = CGVector(0, 0)

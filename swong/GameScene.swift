@@ -249,53 +249,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelRunning)
     }
     
-    func movePaddleToTouch(touchLocation: CGPoint) {
+    func movePaddleToPoint(point:CGPoint) {
         
-        if touchLocation.x > self.frame.midX {
+        func movePaddle(paddle:Int, toY y: CGFloat) {
+            if paddle == 1 {
+                paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: y)
+            } else if paddle == 2 {
+                paddle2.position = CGPoint(x: paddleDistanceFromSide, y: y)
+            } else {
+                println("ERR | Invalid parameter: paddle at movePaddle() call")
+            }
+        }
+        
+        if point.x > self.frame.midX {
             
             // prevent too high or too low paddle locations
             let maxHeight = self.frame.height - (paddle1.size.height / 2)
             let minHeight = paddle1.size.height / 2
             
-            if touchLocation.y > maxHeight {
+            if point.y > maxHeight {
                 movePaddle(1, toY: maxHeight)
-            } else if touchLocation.y < minHeight {
+            } else if point.y < minHeight {
                 movePaddle(1, toY: minHeight)
             } else {
-                movePaddle(1, toY: touchLocation.y)
+                movePaddle(1, toY: point.y)
             }
             
-        } else if touchLocation.x < self.frame.midX {
+        } else if point.x < self.frame.midX {
             
             let maxHeight = self.frame.height - (paddle2.size.height / 2)
             let minHeight = paddle2.size.height / 2
             
-            if touchLocation.y > maxHeight {
+            if point.y > maxHeight {
                 movePaddle(2, toY: maxHeight)
-            } else if touchLocation.y < minHeight {
+            } else if point.y < minHeight {
                 movePaddle(2, toY: minHeight)
             } else {
-                movePaddle(2, toY: touchLocation.y)
+                movePaddle(2, toY: point.y)
             }
         }
     }
     
-    func movePaddle(paddle:Int, toY y: CGFloat) {
-        if paddle == 1 {
-            paddle1.position = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: y)
-        } else if paddle == 2 {
-            paddle2.position = CGPoint(x: paddleDistanceFromSide, y: y)
-        } else {
-            println("ERR | Invalid parameter: paddle at movePaddle() call")
-        }
-    }
+    
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
-                movePaddleToTouch(touch.locationInNode(self))
+                movePaddleToPoint(touch.locationInNode(self))
             }
         } else {
             for touch: AnyObject in touches  {
@@ -318,7 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
-                movePaddleToTouch(touch.locationInNode(self))
+                movePaddleToPoint(touch.locationInNode(self))
             }
         }
     }

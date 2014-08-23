@@ -18,6 +18,7 @@ made using Apple's Sprite Kit framework
 
 ### Screenshots
 ![play swong](./screenshots/screenshot_1.png "play swong")
-![much point](./screenshots/screenshot_2.png "test")
-![much veryt](./screenshots/screenshot_3.png "wow")
-![abcdefghij](./screenshots/screenshot_4.png "dafa")
+![gameplay](./screenshots/screenshot_2.png "gameplay")
+![5 - 2](./screenshots/screenshot_3.png "5 - 2")
+![You win! / you lose...](./screenshots/screenshot_4.png "You win! / You lose...")
+![debug menu](./screenshots/screenshot_5.png "debug menu")

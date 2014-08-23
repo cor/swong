@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Futura")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Futura")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Futura")
-    let debugLabelsAreEnabled                       = true
+    let debugLabelsAreEnabled                       = false
     
     // speeds
     let minimumHorizontalVelocity: CGFloat          = 300.0

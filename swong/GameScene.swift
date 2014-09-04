@@ -83,22 +83,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity                       = CGVectorMake(0, 0)
         self.physicsWorld.contactDelegate               = self
         self.physicsBody                                = SKPhysicsBody(edgeLoopFromRect: self.frame)
-        self.physicsBody.dynamic                        = false
-        self.physicsBody.friction                       = 0
-        self.physicsBody.restitution                    = 1
-        self.physicsBody.categoryBitMask                = ColliderType.Leveledge.toRaw()
-        self.physicsBody.contactTestBitMask             = ColliderType.Ball.toRaw()
+        self.physicsBody!.dynamic                        = false
+        self.physicsBody!.friction                       = 0
+        self.physicsBody!.restitution                    = 1
+        self.physicsBody!.categoryBitMask                = ColliderType.Leveledge.toRaw()
+        self.physicsBody!.contactTestBitMask             = ColliderType.Ball.toRaw()
         
         // BALL
         ball.size                                       = CGSizeMake(45, 45)
         ball.position                                   = CGPointMake(self.frame.midX, self.frame.midY)
         ball.physicsBody                                = SKPhysicsBody(circleOfRadius: ball.size.height / 2)
-        ball.physicsBody.velocity                       = newBallVector(forPlayer: 1)
-        ball.physicsBody.dynamic                        = true
-        ball.physicsBody.allowsRotation                 = true
-        ball.physicsBody.linearDamping                  = 0
-        ball.physicsBody.categoryBitMask                = ColliderType.Ball.toRaw()
-        ball.physicsBody.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
+        ball.physicsBody!.velocity                       = newBallVector(forPlayer: 1)
+        ball.physicsBody!.dynamic                        = true
+        ball.physicsBody!.allowsRotation                 = true
+        ball.physicsBody!.linearDamping                  = 0
+        ball.physicsBody!.categoryBitMask                = ColliderType.Ball.toRaw()
+        ball.physicsBody!.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
         ball.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(1, duration: 0.25)))
         
         // BACKGROUND
@@ -111,42 +111,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1.size                                    = CGSizeMake(32, 150)
         paddle1.position                                = CGPoint(x: self.frame.width - paddleDistanceFromSide, y: self.frame.midY)
         paddle1.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle1.size)
-        paddle1.physicsBody.dynamic                     = true
-        paddle1.physicsBody.allowsRotation              = false
-        paddle1.physicsBody.linearDamping               = 0
-        paddle1.physicsBody.restitution                 = 1
-        paddle1.physicsBody.friction                    = 0
-        paddle1.physicsBody.mass                        = 10000000000
-        paddle1.physicsBody.categoryBitMask             = ColliderType.Paddle.toRaw()
-        paddle1.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
+        paddle1.physicsBody!.dynamic                     = true
+        paddle1.physicsBody!.allowsRotation              = false
+        paddle1.physicsBody!.linearDamping               = 0
+        paddle1.physicsBody!.restitution                 = 1
+        paddle1.physicsBody!.friction                    = 0
+        paddle1.physicsBody!.mass                        = 10000000000
+        paddle1.physicsBody!.categoryBitMask             = ColliderType.Paddle.toRaw()
+        paddle1.physicsBody!.contactTestBitMask          = ColliderType.Ball.toRaw()
         self.addChild(paddle1)
         
         // PADDLE 2
         paddle2.size                                    = CGSizeMake(32, 150)
         paddle2.position                                = CGPoint(x: paddleDistanceFromSide, y: self.frame.midY)
         paddle2.physicsBody                             = SKPhysicsBody(rectangleOfSize: paddle2.size)
-        paddle2.physicsBody.dynamic                     = true
-        paddle2.physicsBody.allowsRotation              = false
-        paddle2.physicsBody.linearDamping               = 0
-        paddle2.physicsBody.restitution                 = 1
-        paddle2.physicsBody.friction                    = 0
-        paddle2.physicsBody.mass                        = 10000000000
-        paddle2.physicsBody.categoryBitMask             = ColliderType.Paddle.toRaw()
-        paddle2.physicsBody.contactTestBitMask          = ColliderType.Ball.toRaw()
+        paddle2.physicsBody!.dynamic                     = true
+        paddle2.physicsBody!.allowsRotation              = false
+        paddle2.physicsBody!.linearDamping               = 0
+        paddle2.physicsBody!.restitution                 = 1
+        paddle2.physicsBody!.friction                    = 0
+        paddle2.physicsBody!.mass                        = 10000000000
+        paddle2.physicsBody!.categoryBitMask             = ColliderType.Paddle.toRaw()
+        paddle2.physicsBody!.contactTestBitMask          = ColliderType.Ball.toRaw()
         self.addChild(paddle2)
         
         // WALL 1
         wall1.position                                  = CGPointMake(self.frame.width - (0.5 * wall2.size.width), self.frame.midY)
         wall1.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall1.size)
-        wall1.physicsBody.dynamic                       = false
-        wall1.physicsBody.categoryBitMask               = ColliderType.Wall1.toRaw()
+        wall1.physicsBody!.dynamic                       = false
+        wall1.physicsBody!.categoryBitMask               = ColliderType.Wall1.toRaw()
         self.addChild(wall1)
         
         // WALL 2
         wall2.position                                  = CGPointMake(0.5 * wall1.size.width, self.frame.midY)
         wall2.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall2.size)
-        wall2.physicsBody.dynamic                       = false
-        wall2.physicsBody.categoryBitMask               = ColliderType.Wall2.toRaw()
+        wall2.physicsBody!.dynamic                       = false
+        wall2.physicsBody!.categoryBitMask               = ColliderType.Wall2.toRaw()
         self.addChild(wall2)
         
         // PADDLE 1 SCORE LABEL
@@ -221,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(debugLabelPosition)
         
         //DEBUG LABEL VELOCITY
-        debugLabelVelocity.text                         = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
+        debugLabelVelocity.text                         = "VELOCITY dx: \(Int(ball.physicsBody!.velocity.dx)) dy: \(Int(ball.physicsBody!.velocity.dy))"
         debugLabelVelocity.fontSize                     = 20
         debugLabelVelocity.fontColor                    = textColor
         debugLabelVelocity.position                     = CGPoint(x: 2, y: 20)
@@ -315,7 +315,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Move paddles when user moves touch
-    override func touchesMoved(touches: NSSet!, withEvent event: UIEvent!) {
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
         
         if gameIsRunning {
             // move paddles
@@ -331,10 +331,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Paddle.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
             
             if !ballIsResetting {
-                print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody.velocity.dx))  --> ")
+                print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody!.velocity.dx))  --> ")
                 ++paddleHitCount
-                ball.physicsBody.velocity.dx *= horizontalVelocityMultiplier
-                println("new speed: \(Int(ball.physicsBody.velocity.dx))")
+                ball.physicsBody!.velocity.dx *= horizontalVelocityMultiplier
+                println("new speed: \(Int(ball.physicsBody!.velocity.dx))")
             }
         }
         
@@ -365,15 +365,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Leveledge.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
 
             if !ballIsResetting {
-                print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody.velocity.dy)) ")
+                print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody!.velocity.dy)) ")
                
                 if ball.position.y > self.frame.midY {
-                    ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
+                    ball.physicsBody!.velocity.dy *= verticalVelocityMultiplier
                 } else if ball.position.y < self.frame.midY {
-                    ball.physicsBody.velocity.dy *= verticalVelocityMultiplier
+                    ball.physicsBody!.velocity.dy *= verticalVelocityMultiplier
                 }
                 
-                println("--> new speed: \(Int(ball.physicsBody.velocity.dy))")
+                println("--> new speed: \(Int(ball.physicsBody!.velocity.dy))")
             }
         }
         
@@ -393,38 +393,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if !ballIsResetting {
         
             // If the ball is moving too slow horizontally, increase speed
-            if !((ball.physicsBody.velocity.dx > minimumHorizontalVelocity) || (ball.physicsBody.velocity.dx < -minimumHorizontalVelocity)) {
+            if !((ball.physicsBody!.velocity.dx > minimumHorizontalVelocity) || (ball.physicsBody!.velocity.dx < -minimumHorizontalVelocity)) {
                 
                 // If the ball isn't moving horizontal at all, increase speed by a fifth of the minimumspeed
-                if !((ball.physicsBody.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody.velocity.dx < -(minimumHorizontalVelocity / 10))) {
+                if !((ball.physicsBody!.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody!.velocity.dx < -(minimumHorizontalVelocity / 10))) {
                     println("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
-                    ball.physicsBody.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
+                    ball.physicsBody!.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
                 }
                 
-                print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody.velocity.dx)), increasing speed --> ")
-                ball.physicsBody.velocity.dx *= horizontalTooSlowMultiplier
-                println("new speed: \(Int(ball.physicsBody.velocity.dx))")
+                print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody!.velocity.dx)), increasing speed --> ")
+                ball.physicsBody!.velocity.dx *= horizontalTooSlowMultiplier
+                println("new speed: \(Int(ball.physicsBody!.velocity.dx))")
             }
             
             // If the ball is moving too slow vertically, increase speed
-            if !((ball.physicsBody.velocity.dy > minimumVerticalVelocity) || (ball.physicsBody.velocity.dy < -minimumVerticalVelocity)) {
+            if !((ball.physicsBody!.velocity.dy > minimumVerticalVelocity) || (ball.physicsBody!.velocity.dy < -minimumVerticalVelocity)) {
                 
                 // If the ball isn't moving vertical at all, increase speed by a fifth of the minimumVerticalVelocity
-                if !((ball.physicsBody.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody.velocity.dy < -(minimumVerticalVelocity / 10))) {
+                if !((ball.physicsBody!.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody!.velocity.dy < -(minimumVerticalVelocity / 10))) {
                     println("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
-                    ball.physicsBody.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
+                    ball.physicsBody!.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
                 }
                 
-                print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody.velocity.dy)), increasing speed --> ")
-                ball.physicsBody.velocity.dy *= verticalTooSlowMultiplier
-                println("new speed: \(Int(ball.physicsBody.velocity.dy))")
+                print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody!.velocity.dy)), increasing speed --> ")
+                ball.physicsBody!.velocity.dy *= verticalTooSlowMultiplier
+                println("new speed: \(Int(ball.physicsBody!.velocity.dy))")
             }
         }
         
         // Update debug labels
         if debugLabelsAreEnabled {
             debugLabelPosition.text = "POSITION x: \(Int(ball.position.x)) y: \(Int(ball.position.y))"
-            debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody.velocity.dx)) dy: \(Int(ball.physicsBody.velocity.dy))"
+            debugLabelVelocity.text = "VELOCITY dx: \(Int(ball.physicsBody!.velocity.dx)) dy: \(Int(ball.physicsBody!.velocity.dy))"
             debugLabelOther.text    = "PADDLEHITCOUNT: \(paddleHitCount)"
             debugLabelRunning.text  = "RUNNING: \(gameIsRunning)"
         } else  {
@@ -488,14 +488,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let sequence = SKAction.sequence([part1, part2, part3, part4])
         
-        ball.physicsBody.velocity = CGVector(0, 0)
+        ball.physicsBody!.velocity = CGVector(0, 0)
         
         ball.runAction(sequence, completion: { () -> Void in
             // taking turns on getting the ball first
             if ( self.paddle1score + self.paddle2score ) % 2 == 0 {
-                self.ball.physicsBody.velocity = self.newBallVector(forPlayer: 1)
+                self.ball.physicsBody!.velocity = self.newBallVector(forPlayer: 1)
             } else {
-                self.ball.physicsBody.velocity = self.newBallVector(forPlayer: 2)
+                self.ball.physicsBody!.velocity = self.newBallVector(forPlayer: 2)
             }
             self.ballIsResetting = false
         })

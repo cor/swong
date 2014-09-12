@@ -1,7 +1,31 @@
+/* 
+	COLORS
+	text		#1f1f1f
+	header	  	#d5dce2;
+	navbar item rgba(255, 255, 255, 0.5)
+		  hover #969696
+	content		rgba(228, 232, 236, 1);
+
+
+	FONT
+	title		"Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif 
+	main		"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+
+		NOTE: FUTURA DOESN'T WORK ON WINDOWS!, this is due to Microsoft being greedy and not including Futura in it's OS.
+											   i'll need to fix that, because the Swong logo uses Futura in it.
+*/
+
+
+
+
 /* GENERAL */
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
+
+
+
+
 
 /* HEADER */
 header {
@@ -71,6 +95,10 @@ header p {
 #navbar a:visited {
 	color: black;
 }	
+
+
+
+
 
 /* CONTENT */
 h1 {

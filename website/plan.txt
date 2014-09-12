@@ -1,0 +1,57 @@
+Plan van aanpak
+===============
+
+Doel van de website
+-------------------
+Het doel van de website is om een Promotie website te worden voor Swong, mijn Pong clone geschreven in Swift
+Dit lijkt me erg nuttig omdat ik later misschien wel meer van dit soort websites moet bouwen.
+
+Informatie die ik ga aanbieden
+------------------------------
+Alles dat te maken heeft met de game, zoals:
+- Screenshots
+- Verhaaltje over wat het is
+- Feature lijst
+- "App Store knop" waarmee je hem kan downloaden (die knop wordt nep, hij is niet echt verkrijgbaar)
+- Een knop naar de publieke Github repository zodat andere mensen de source code kunnen bekijken / het project kunnen forken.
+- tabel met systeemvereisten
+- een "easter egg", waarschijnlijk een kleine JavaScript game.
+- eventueel gameplay video, waarschijnlijk niet.
+
+Hoe de site er ongeveer uit gaat zien
+-------------------------------------
+het wordt een lange pagina waar je doorheen kan scrollen en die alles verteld, dit werkt namleijk een stuk beter dan allemaal losse secties van je website, verbeterd de gebruikers ervaring en werkt ook goed in mobiele browsers.
+Om ervoor te zorgen dat je nog wel snel naar andere secties (pagina's) kunt gaan, maak ik een header die aan de bovenkant van de pagina blijft staan, met knoppen die snel naar een ander gedeelte gaan van de website.
+
+Planning inclusief tijdsschatting
+---------------------------------
+60 min		Informatie verzamelen voor de website (inclusief screenshots)
+20 min 		Essentiële code schrijven (head, body), bestands structuur maken (css map, img map, etc), bestanden linken.
+30 min 		Basis html en css
+10 min 		Goed kleuren schema en lettertype uitkiezen die passen bij mijn game.
+120 min 	Site verder maken, html meer uitgebreid, css mooier
+30 min 		Uitzoeken hoe je een sticky navigatie header maakt en die vervolgens maken.
+30 min 		Kijken of alles dat er op staat dat er op moet stan en mocht dit niet het geval zijn de ontbrekende dingen toevoegen
+30 min 		Alles refactoren: kijken of alles logisch is ingedeeld, code opruimen, comments toevogen / verwijderen
+10-60 min 	In structorizor een PDS maken van de website, kan kort/lang duren omdat ik niet weet hoe goed structorizor werkt.
+60 min 		Alles testen, zie kopje "testen"
+
+( ^ dit is op chronologische volgorde)
+
+Testen
+------
+Voor het testen ga ik de volgende dingen doen:
+- controleren op syntax errors (niet goed gesloten tags, missende ; )
+- de website testen in de volgende browsers:
+	- Safari op OS X
+	- Chrome op OS X
+	- Firefox op OS X
+	- Opera op OS X
+	- Chrome op Windows
+	- Firefox op Windows
+	- Opera op Windows
+	- Internet Explorer op Windows
+	- Chrome op Chrome OS
+	- Safari op de iPhone (mobile design)
+	- Chrome op de iPhone (mobile design)
+	- Safari op de iPad 

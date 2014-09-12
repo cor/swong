@@ -1,11 +1,11 @@
 /* GENERAL */
 body {
-	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 /* HEADER */
 header {
-	height: 80px;
+	height: 50px;
 	width: 100%;
 	min-width: 650px;
 	
@@ -22,12 +22,14 @@ header p {
 	margin-left: 20px;
 
 	padding-bottom: 30px;
+	vertical-align: center;
+	line-height: 40px;
 
 	float: left;
 
 
 	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-	font-size: 60px;
+	font-size: 35px;
 
 	color: #1f1f1f;
 }
@@ -37,15 +39,17 @@ header p {
 }
 
 #navbar div {
-	height: 80px;
+	height: 50px;
 	width: 100px;
 
 	text-align: center;
 	vertical-align: center;
-	line-height: 80px;
+	line-height: 50px;
 
 
 	display: inline-block;
+
+	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 	background-color: rgba(255, 255, 255, 0.5);
 
@@ -62,23 +66,36 @@ header p {
 	background-color: #969696;
 }
 #navbar a {
-	color: black;
+	color: #1f1f1f;
 }	
 #navbar a:visited {
 	color: black;
 }	
 
 /* CONTENT */
-#content {
-
+h1 {
+	text-align: center;
+	font-size: 60px;
+	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 #content .section {
-	height: 100px;
-}
+	max-width: 800px;
+	margin: 0 auto;
 
-#s1	{background-color: red; }
-#s2 {background-color: yellow; }
-#s3 {background-color: green; }
-#s4 {background-color: blue; }
+	padding: 0 50px;
+
+	background-color: rgba(228, 232, 236, 1);
+}
+#content .section h1 {
+	padding-top: 40px;
+	padding-bottom: 20px;
+
+	color: #1f1f1f;
+}
+#content .section p {
+	padding-bottom: 20px;
+
+	color: #1f1f1f;
+}
 
 /* FOOTER */

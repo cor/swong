@@ -24,16 +24,14 @@ body {
 }
 
 
-
-
-
 /* HEADER */
 header {
 	height: 50px;
 	width: 100%;
 	min-width: 650px;
 	
-	position: relative;
+	position: fixed;
+	z-index: 9000;
 
 	background-color: #d5dce2;
 }
@@ -97,8 +95,15 @@ header p {
 	color: black;
 }	
 
+
+
 /* CONTENT */
+#content {
+	padding: 0;
+	margin: 0;
+}
 h1 {
+
 	text-align: center;
 	font-size: 60px;
 	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -107,7 +112,7 @@ h1 {
 h2 {
 	font-size: 30px;
 }
-#content .section {
+section {
 	max-width: 800px;
 	margin: 0 auto;
 
@@ -115,7 +120,7 @@ h2 {
 
 	background-color: rgba(228, 232, 236, 1);
 }
-#content .section h1 {
+section h1 {
 	padding-top: 40px;
 	padding-bottom: 20px;
 
@@ -123,18 +128,38 @@ h2 {
 }
 
 
-#content .section p {
+section p {
 	padding-bottom: 20px;
 
 	color: #1f1f1f;
 }
 
 
+#s_screenshots {
+	padding: 0;
+}
+
+
+/* CONTENT > description */
+#description p {
+	text-align: center;
+}
+
+
 
 /* SCREENSHOTS */
 .screenshot {
+	width: 49%;
+
+	display: inline-block;
+
 	position: relative;
 	margin-bottom: 50px;
+	margin-left: 0;
+	margin-right: 0;
+
+	padding-left: 0;
+	padding-right: 0;
 }
 .screenshot img {
 	width: 100%;
@@ -149,7 +174,7 @@ h2 {
 
 	background-color: rgba(0, 0, 0, 0.5);
 }
-#content .screenshot .description p {
+.screenshot .description p {
 	text-align: center;
 	font-size: 20px;
 	color: white;

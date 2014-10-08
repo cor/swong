@@ -1,4 +1,4 @@
-/* 
+/*
 	COLORS
 	text		#1f1f1f
 	header	  	#d5dce2;
@@ -8,7 +8,7 @@
 
 
 	FONT
-	title		"Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif 
+	title		"Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
 	main		"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
 
 		NOTE: FUTURA DOESN'T WORK ON WINDOWS!, this is due to Microsoft being greedy and not including Futura in it's OS.
@@ -29,7 +29,7 @@ header {
 	height: 50px;
 	width: 100%;
 	min-width: 650px;
-	
+
 	position: fixed;
 	z-index: 9000;
 
@@ -90,15 +90,15 @@ header p {
 }
 #navbar a {
 	color: #1f1f1f;
-}	
+}
 #navbar a:visited {
 	color: black;
-}	
+}
 
 
 
 /* CONTENT */
-#content {
+content {
 	padding: 0;
 	margin: 0;
 }
@@ -113,10 +113,12 @@ h2 {
 	font-size: 30px;
 }
 section {
-	max-width: 800px;
+
+	max-width: 900px;
 	margin: 0 auto;
 
-	padding: 0 50px;
+	padding-left: 2%;
+	padding-right: 2%;
 
 	background-color: rgba(228, 232, 236, 1);
 }
@@ -126,17 +128,15 @@ section h1 {
 
 	color: #1f1f1f;
 }
+section h2 {
+	text-align: center;
+}
 
 
 section p {
 	padding-bottom: 20px;
 
 	color: #1f1f1f;
-}
-
-
-#s_screenshots {
-	padding: 0;
 }
 
 
@@ -149,7 +149,6 @@ section p {
 
 /* SCREENSHOTS */
 .screenshot {
-	width: 49%;
 
 	display: inline-block;
 
@@ -158,14 +157,12 @@ section p {
 	margin-left: 0;
 	margin-right: 0;
 
-	padding-left: 0;
-	padding-right: 0;
 }
 .screenshot img {
 	width: 100%;
 }
 
-.screenshot .description {
+.description {
 	width: 100%;
 	height: auto;
 	z-index: 100;
@@ -178,6 +175,12 @@ section p {
 	text-align: center;
 	font-size: 20px;
 	color: white;
+}
+
+/* FEATURES */
+ul li {
+	/* FIXME */
+	list-style-type = square;
 }
 
 /* FOOTER */

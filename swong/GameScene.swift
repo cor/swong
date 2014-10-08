@@ -19,7 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let wall2                                       = SKSpriteNode(color: SKColor.clearColor(), size: CGSize(width: 2, height: 768))
     
     // aesthetics
-    let background                                  = SKSpriteNode(imageNamed: "smallBackground")
+    let background                                  = SKSpriteNode(imageNamed: "background")
     let textColor                                   = UIColor(red: 0.4823529412, green: 0.4588235294, blue: 0.9254901961, alpha: 1) // Purple
     
     // score labels

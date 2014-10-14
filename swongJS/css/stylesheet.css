@@ -1,0 +1,32 @@
+body {
+    background-color: white;
+}
+
+canvas {
+
+    background-color: white;
+
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 800;
+    height: 600;
+    margin: -300px 0 0 -400px;
+
+    -moz-box-shadow: 0 0 10px 10px #888;
+    -webkit-box-shadow: 0 0 10px 10px#888;
+    box-shadow: 0 0 10px 10px #888;
+}
+
+
+h1 {
+    font-family: Helvetica;
+    font-size: 40px;
+
+    margin-top: 10px;
+    text-align: center;
+}
+
+p {
+    font-family: Helvetica;
+    text-align: center;
+}

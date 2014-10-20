@@ -1,17 +1,19 @@
-
 function Paddle() {
 
+    // current position
     this.position = {
         x: 0,
         y: 0
     };
 
+    // paddle size
     this.size = {
         height: 80,
         width: 20
     };
 
-    this.velocity =  {
+    // velocity vector
+    this.velocity = {
         dx: 0,
         dy: 0
     };
@@ -35,11 +37,13 @@ function Paddle() {
         }
     };
 
+    // add the current velocity of the paddle to the position
     this.update = function() {
         this.position.x += (this.velocity.dx * this.movementMultiplier);
         this.position.y += (this.velocity.dy * this.movementMultiplier);
     };
 
+    // function that handles collisions
     this.collisions = function() {
 
         if (this.position.y < 0) {
@@ -63,10 +67,10 @@ function Paddle() {
         }
     };
 
+    // draw the paddle on the screen
     this.draw = function() {
 
         context.fillStyle = "#161717";
-
         context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     };
 }

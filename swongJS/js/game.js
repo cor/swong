@@ -28,41 +28,12 @@ ball.velocity.dy = 30;
 
 // update function
 function update() {
-
-    // if (keys[87]) {
-    //     paddle1.velocity.dy--;
-    // }
-    //
-    // if (keys[83]) {
-    //     paddle1.velocity.dy++;
-    // }
-//
-    // slow down vertically if there's now vertical input
-    // if (!(keys[87] || keys[83])) {
-    //     paddle1.velocity.dy *= 0.9;
-    // }
     paddle1.update();
-    //
-    //
-    // if (keys[73]) {
-    //     paddle2.velocity.dy--;
-    // }
-    //
-    // if (keys[75]) {
-    //     paddle2.velocity.dy++;
-    // }
-    //
-    // // slow down vertically if there's now vertical input
-    // if (!(keys[73] || keys[75])) {
-    //     paddle2.velocity.dy *= 0.9;
-    // }
     paddle2.update();
-
     ball.update();
 }
 
 function draw() {
-
     context.clearRect(0,0,canvas.width,canvas.height);
 
     paddle1.draw();

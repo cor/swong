@@ -18,6 +18,7 @@ function Paddle() {
         dy: 0
     };
 
+    this.color = "black";
     this.movementMultiplier = 0.1;
     this.maxSpeed = 50;
 
@@ -88,7 +89,7 @@ function Paddle() {
     // draw the paddle on the screen
     this.draw = function() {
 
-        context.fillStyle = "#161717";
+        context.fillStyle = this.color;
         context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     };
 }

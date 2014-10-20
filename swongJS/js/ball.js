@@ -18,4 +18,20 @@ function Ball() {
         dy: 0
     };
 
+    this.movementMultiplier = 0.1;
+
+    this.update = function() {
+        this.position.x += (this.velocity.dx * this.movementMultiplier);
+        this.position.y += (this.velocity.dy * this.movementMultiplier);
+    };
+
+    this.draw = function() {
+        context.beginPath();
+        context.arc(this.position.x, this.position.y, this.size.height, 0, 2 * Math.PI, false);
+        context.fillStyle = "black";
+        context.lineWidth = 5;
+        context.strokeStyle = "red";
+        context.stroke();
+    };
+
 }

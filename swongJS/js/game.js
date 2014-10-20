@@ -11,14 +11,16 @@ var Direction = {
     West : 4
 };
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-
+// game objects
 paddle1 = new Paddle();
+
 paddle2 = new Paddle();
 paddle2.position.x = canvas.width - paddle2.size.width;
 
+ball = new Ball();
+
+
+// update function
 function update() {
 
     if (keys[87]) {
@@ -49,7 +51,8 @@ function update() {
         paddle2.velocity.dy *= 0.9;
     }
     paddle2.update();
-
+    
+    ball.update();
 }
 
 function draw() {
@@ -58,6 +61,7 @@ function draw() {
 
     paddle1.draw();
     paddle2.draw();
+    ball.draw();
 }
 
 function collisions() {

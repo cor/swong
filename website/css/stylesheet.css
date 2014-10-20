@@ -22,6 +22,7 @@
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	background-color: #f2f1ff;
+
 }
 
 /* HEADER */
@@ -203,6 +204,15 @@ section p {
 	list-style-type: disc;
 	list-style-position: inside;
 	font-size: 18px;
+}
+
+/* DOWNLOAD */
+#canvasContainer {
+	overflow: hidden;
+}
+
+canvas {
+	margin: 0 auto;
 }
 
 

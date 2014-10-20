@@ -56,7 +56,7 @@ function Ball() {
     this.draw = function() {
         context.beginPath();
         context.arc(this.position.x, this.position.y, this.size.height / 2, 0, 2 * Math.PI, false);
-        context.fillStyle = "#8D78E3";
+        context.fillStyle = "#8662F0";
         context.fill();
     };
 

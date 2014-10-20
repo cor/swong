@@ -13,17 +13,21 @@ var Direction = {
     West : 4
 };
 
-// game objects and setup
+// game objects setup
+
+// paddle 1
 paddle1 = new Paddle();
 paddle1.color = "#4F4F4F";
 paddle1.position.y = canvas.height / 2 - paddle1.size.height / 2;
 paddle1.position.x = 30;
 
+// paddle 2
 paddle2 = new Paddle();
 paddle2.color = "#2A2A2A";
 paddle2.position.y = canvas.height / 2 - paddle2.size.height / 2;
 paddle2.position.x = canvas.width - paddle2.size.width - 30;
 
+// ball
 ball = new Ball();
 ball.position.x = canvas.width / 2;
 ball.position.y = canvas.height / 2;
@@ -83,6 +87,11 @@ function draw() {
     paddle1.draw();
     paddle2.draw();
     ball.draw();
+
+    // draw "Download Now" text
+    context.font = "60px Futura, Helvetica";
+    context.textAlign = "center";
+    context.fillText("Download Now", canvas.width / 2, canvas.height / 2);
 }
 
 // game loop

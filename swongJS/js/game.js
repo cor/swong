@@ -1,9 +1,11 @@
+// canvas setup
 var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 
 canvas.width = 800;
 canvas.height = 600;
 
+// Direction "enumeration"
 var Direction = {
     North : 1,
     East : 2,
@@ -11,12 +13,12 @@ var Direction = {
     West : 4
 };
 
-var AI_ENABLED = true;
-
 // game objects
 paddle1 = new Paddle();
+paddle1.position.y = canvas.height / 2 - paddle1.size.height / 2;
 
 paddle2 = new Paddle();
+paddle2.position.y = canvas.height / 2 - paddle2.size.height / 2;
 paddle2.position.x = canvas.width - paddle2.size.width;
 
 ball = new Ball();
@@ -26,11 +28,33 @@ ball.velocity.dx = 15;
 ball.velocity.dy = 30;
 
 
-// update function
+// game loop functions
 function update() {
     paddle1.update();
     paddle2.update();
     ball.update();
+}
+
+function ai() {
+
+    // if the ball is moving left, move left paddle
+    if (ball.velocity.dx < 0) {
+        paddle1.velocity.dy = ball.position.y - paddle1.centerPosition().y;
+        paddle2.velocity.dy = 0;
+    }
+
+    // if the ball is not moving left,
+    // then it's moving right thus the right paddle will be moved
+    else {
+        paddle2.velocity.dy = ball.position.y - paddle2.centerPosition().y;
+        paddle1.velocity.dy = 0;
+    }
+}
+
+function collisions() {
+    paddle1.collisions();
+    paddle2.collisions();
+    ball.collisions();
 }
 
 function draw() {
@@ -41,27 +65,7 @@ function draw() {
     ball.draw();
 }
 
-function collisions() {
-    paddle1.collisions();
-    paddle2.collisions();
-    ball.collisions();
-}
-
-// artifactal intelligence
-function ai() {
-    if (AI_ENABLED) {
-
-        if (ball.velocity.dx < 0) {
-            paddle1.velocity.dy = ball.position.y - paddle1.centerPosition().y;
-            paddle2.velocity.dy = 0;
-        } else {
-            paddle2.velocity.dy = ball.position.y - paddle2.centerPosition().y;
-            paddle1.velocity.dy = 0;
-        }
-
-    }
-}
-
+// game loop
 function tick() {
     update();
     ai();

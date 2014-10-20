@@ -13,13 +13,16 @@ var Direction = {
     West : 4
 };
 
-// game objects
+// game objects and setup
 paddle1 = new Paddle();
+paddle1.color = "#4F4F4F";
 paddle1.position.y = canvas.height / 2 - paddle1.size.height / 2;
+paddle1.position.x = 30;
 
 paddle2 = new Paddle();
+paddle2.color = "#2A2A2A";
 paddle2.position.y = canvas.height / 2 - paddle2.size.height / 2;
-paddle2.position.x = canvas.width - paddle2.size.width;
+paddle2.position.x = canvas.width - paddle2.size.width - 30;
 
 ball = new Ball();
 ball.position.x = canvas.width / 2;
@@ -55,6 +58,23 @@ function collisions() {
     paddle1.collisions();
     paddle2.collisions();
     ball.collisions();
+
+    // ball and paddle collisions
+
+    // paddle 1 + ball
+    if (ball.position.x < paddle1.position.x + paddle1.size.width + (ball.size.width / 2)) {
+        if (ball.position.y > paddle1.position.y && ball.position.y < paddle1.position.y + paddle1.size.height) {
+            ball.velocity.dx *= -1;
+        }
+    }
+
+    // paddle 2 + ball
+    if (ball.position.x > paddle2.position.x - paddle2.size.width + (ball.size.width / 4)) {
+        if (ball.position.y > paddle2.position.y && ball.position.y < paddle2.position.y + paddle2.size.height) {
+            ball.velocity.dx *= -1;
+        }
+    }
+
 }
 
 function draw() {

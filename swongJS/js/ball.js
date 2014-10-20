@@ -1,6 +1,6 @@
 function Ball() {
 
-    // current positoin
+    // current position
     this.position = {
         x: 0,
         y: 0

@@ -19,6 +19,15 @@ function Paddle() {
     };
 
     this.movementMultiplier = 0.1;
+    this.maxSpeed = 50;
+
+    this.centerPosition = function() {
+        return {
+            x: this.position.x + ( this.size.width / 2 ),
+            y: this.position.y + ( this.size.height / 2 )
+        };
+
+    };
 
     this.move = function(direction) {
         switch(direction) {
@@ -39,6 +48,15 @@ function Paddle() {
 
     // add the current velocity of the paddle to the position
     this.update = function() {
+
+        // if (this.velocity.dy > this.maxSpeed) {
+        //     this.velocity.dy = this.maxSpeed;
+        // }
+        //
+        // if (this.velocity.dy < -this.maxSpeed) {
+        //     this.velocity.dy = -this.maxSpeed;
+        // }
+
         this.position.x += (this.velocity.dx * this.movementMultiplier);
         this.position.y += (this.velocity.dy * this.movementMultiplier);
     };

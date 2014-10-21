@@ -5,16 +5,19 @@ var context = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 600;
 
-// // responsive canvas
-// window.addEventListener('resize', resizeCanvas, false);
-//
-// function resizeCanvas() {
-//     canvas.width = window.innerWidth;
-//     canvas.height = window.innerHeight;
-//
-//     paddle1.position.x = 30;
-//     paddle2.position.x = canvas.width - paddle2.size.width - 30;
-// }
+// responsive canvas
+window.addEventListener('resize', resizeCanvas, false);
+
+function resizeCanvas() {
+
+    if (window.innerWidth < 900) {
+        canvas.width = window.innerWidth;
+    }
+    // canvas.height = window.innerHeight;
+
+    paddle1.position.x = 30;
+    paddle2.position.x = canvas.width - paddle2.size.width - 30;
+}
 
 // Direction "enumeration"
 var Direction = {

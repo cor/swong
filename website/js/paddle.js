@@ -31,23 +31,6 @@ function Paddle() {
 
     };
 
-    this.move = function(direction) {
-        switch(direction) {
-            case Direction.North:
-                this.velocity.dy--;
-                break;
-            case Direction.East:
-                this.velocity.dx++;
-                break;
-            case Direction.South:
-                this.velocity.dy++;
-                break;
-            case Direction.West:
-                this.velocity.dx--;
-                break;
-        }
-    };
-
     // add the current velocity of the paddle to the position
     this.update = function() {
 
@@ -81,7 +64,6 @@ function Paddle() {
 
     // draw the paddle on the screen
     this.draw = function() {
-
         context.fillStyle = this.color;
         context.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     };

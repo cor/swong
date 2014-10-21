@@ -5,29 +5,28 @@ var context = canvas.getContext("2d");
 canvas.width = 900;
 canvas.height = 600;
 
-// responsive canvas
+// resize canvas when window is resized
 window.addEventListener('resize', resizeCanvas, false);
 
 function resizeCanvas() {
 
+    // 900 is the maximum page width
     if (window.innerWidth < 900) {
         canvas.width = window.innerWidth;
+    } else {
+        canvas.width = 900;
     }
-    // canvas.height = window.innerHeight;
 
+    // set the paddles to the new positions
     paddle1.position.x = 30;
     paddle2.position.x = canvas.width - paddle2.size.width - 30;
+
+    // reset the ball position to the center of the canvas
+    ball.position.x = canvas.width / 2;
+    ball.position.x = canvas.height / 2;
 }
 
-// Direction "enumeration"
-var Direction = {
-    North : 1,
-    East : 2,
-    South : 3,
-    West : 4
-};
-
-// game objects setup
+// setup game objects
 
 // paddle 1
 paddle1 = new Paddle();
@@ -73,22 +72,26 @@ function ai() {
 }
 
 function collisions() {
+
+    // built in collision functions with the game objects and the edges of the canvas
     paddle1.collisions();
     paddle2.collisions();
     ball.collisions();
 
-    // ball and paddle collisions
-
     // paddle 1 + ball
     if (ball.position.x < paddle1.position.x + paddle1.size.width + (ball.size.width / 2)) {
+        // paddle 1 is at the same horizontal position as the ball
         if (ball.position.y > paddle1.position.y && ball.position.y < paddle1.position.y + paddle1.size.height) {
+            // paddle 1 is at the same vertical position as the ball
             ball.velocity.dx *= -1;
         }
     }
 
     // paddle 2 + ball
     if (ball.position.x > paddle2.position.x - paddle2.size.width + (ball.size.width / 4)) {
+        // paddle 2 is at the same horizontal position as the ball
         if (ball.position.y > paddle2.position.y && ball.position.y < paddle2.position.y + paddle2.size.height) {
+            // paddle 2 is at the same vertical position as the ball
             ball.velocity.dx *= -1;
         }
     }
@@ -96,8 +99,11 @@ function collisions() {
 }
 
 function draw() {
+
+    // clear the canvas before drawing
     context.clearRect(0,0,canvas.width,canvas.height);
 
+    // draw all the game objects
     paddle1.draw();
     paddle2.draw();
     ball.draw();
@@ -110,11 +116,12 @@ function draw() {
 
 // game loop
 function tick() {
-    update();
-    ai();
-    collisions();
-    draw();
-    requestAnimationFrame(tick);
+    update(); // update positions, apply velocity
+    ai(); // let the ai move the paddles
+    collisions(); // check for collisions
+    draw(); // draw the result on the screen
+    requestAnimationFrame(tick); // request the next frame
 }
 
+// start the game loop
 tick();

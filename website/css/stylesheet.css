@@ -16,13 +16,9 @@
 											   i'll need to fix that, because the Swong logo uses Futura in it.
 */
 
-
-
 /* GENERAL */
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-	background-color: #f2f1ff;
-
 }
 
 /* HEADER */
@@ -50,7 +46,6 @@ header p {
 
 	float: left;
 
-
 	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 	font-size: 35px;
 
@@ -69,7 +64,6 @@ header p {
 	vertical-align: center;
 	line-height: 50px;
 
-
 	display: inline-block;
 
 	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -85,7 +79,6 @@ header p {
 }
 
 #navbar div:hover {
-
 	color: white;
 	background-color: #969696;
 }
@@ -93,9 +86,8 @@ header p {
 	color: #1f1f1f;
 }
 #navbar a:visited {
-	color: black;
+	color: #1f1f1f;
 }
-
 
 
 /* CONTENT */
@@ -111,7 +103,6 @@ hr {
 }
 
 h1 {
-
 	text-align: center;
 	font-size: 60px;
 	font-family: "Futura", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -123,7 +114,6 @@ h2 {
 
 /* SECTIONS */
 section {
-
 	max-width: 900px;
 	margin: 0 auto;
 
@@ -132,29 +122,26 @@ section {
 
 	background-color: rgba(228, 232, 236, 1);
 }
+
 section h1 {
 	padding-top: 40px;
 	padding-bottom: 20px;
-
 }
+
 section h2 {
 	text-align: center;
 }
 
-
 section p {
-
 	padding-bottom: 20px;
+
 	color: #1f1f1f;
 }
-
 
 /* CONTENT > description */
 #description p {
 	text-align: center;
 }
-
-
 
 /* SCREENSHOTS */
 
@@ -166,33 +153,16 @@ section p {
 	width: 100%;
 	padding: 10px 10px 10px;
 
-	background-color: #FFF;
-	box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
-	-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
-	-webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
-
-	/* display: inline-block; */
-
 	position: relative;
 	margin-bottom: 50px;
 	margin-left: -10px;
 	margin-right: 0;
 
-}
-
-.description {
-	width: 100%;
-	height: auto;
-	z-index: 100;
-	position: absolute;
-	bottom: 0;
-
-	background-color: rgba(0, 0, 0, 0.5);
-}
-.screenshot .description p {
-	text-align: center;
-	font-size: 20px;
-	color: white;
+	/* image border */
+	background-color: #FFF;
+	box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
+	-moz-box-shadow: 0 1px 2px rgba(34,25,25,0.4);
+	-webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
 /* FEATURES */
@@ -206,7 +176,7 @@ section p {
 	font-size: 18px;
 }
 
-/* DOWNLOAD */
+/* CANVAS */
 #canvasContainer {
 	overflow: hidden;
 }

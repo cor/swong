@@ -86,8 +86,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody!.dynamic                        = false
         self.physicsBody!.friction                       = 0
         self.physicsBody!.restitution                    = 1
-        self.physicsBody!.categoryBitMask                = ColliderType.Leveledge.toRaw()
-        self.physicsBody!.contactTestBitMask             = ColliderType.Ball.toRaw()
+        self.physicsBody!.categoryBitMask                = ColliderType.Leveledge.rawValue
+        self.physicsBody!.contactTestBitMask             = ColliderType.Ball.rawValue
         
         // BALL
         ball.size                                       = CGSizeMake(45, 45)
@@ -97,8 +97,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.physicsBody!.dynamic                        = true
         ball.physicsBody!.allowsRotation                 = true
         ball.physicsBody!.linearDamping                  = 0
-        ball.physicsBody!.categoryBitMask                = ColliderType.Ball.toRaw()
-        ball.physicsBody!.contactTestBitMask             = ColliderType.Leveledge.toRaw() | ColliderType.Paddle.toRaw() | ColliderType.Devbox.toRaw() | ColliderType.Wall1.toRaw() | ColliderType.Wall2.toRaw()
+        ball.physicsBody!.categoryBitMask                = ColliderType.Ball.rawValue
+        ball.physicsBody!.contactTestBitMask             = ColliderType.Leveledge.rawValue | ColliderType.Paddle.rawValue | ColliderType.Devbox.rawValue | ColliderType.Wall1.rawValue | ColliderType.Wall2.rawValue
         ball.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(1, duration: 0.25)))
         
         // BACKGROUND
@@ -117,8 +117,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1.physicsBody!.restitution                 = 1
         paddle1.physicsBody!.friction                    = 0
         paddle1.physicsBody!.mass                        = 10000000000
-        paddle1.physicsBody!.categoryBitMask             = ColliderType.Paddle.toRaw()
-        paddle1.physicsBody!.contactTestBitMask          = ColliderType.Ball.toRaw()
+        paddle1.physicsBody!.categoryBitMask             = ColliderType.Paddle.rawValue
+        paddle1.physicsBody!.contactTestBitMask          = ColliderType.Ball.rawValue
         self.addChild(paddle1)
         
         // PADDLE 2
@@ -131,22 +131,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2.physicsBody!.restitution                 = 1
         paddle2.physicsBody!.friction                    = 0
         paddle2.physicsBody!.mass                        = 10000000000
-        paddle2.physicsBody!.categoryBitMask             = ColliderType.Paddle.toRaw()
-        paddle2.physicsBody!.contactTestBitMask          = ColliderType.Ball.toRaw()
+        paddle2.physicsBody!.categoryBitMask             = ColliderType.Paddle.rawValue
+        paddle2.physicsBody!.contactTestBitMask          = ColliderType.Ball.rawValue
         self.addChild(paddle2)
         
         // WALL 1
         wall1.position                                  = CGPointMake(self.frame.width - (0.5 * wall2.size.width), self.frame.midY)
         wall1.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall1.size)
         wall1.physicsBody!.dynamic                       = false
-        wall1.physicsBody!.categoryBitMask               = ColliderType.Wall1.toRaw()
+        wall1.physicsBody!.categoryBitMask               = ColliderType.Wall1.rawValue
         self.addChild(wall1)
         
         // WALL 2
         wall2.position                                  = CGPointMake(0.5 * wall1.size.width, self.frame.midY)
         wall2.physicsBody                               = SKPhysicsBody(rectangleOfSize: wall2.size)
         wall2.physicsBody!.dynamic                       = false
-        wall2.physicsBody!.categoryBitMask               = ColliderType.Wall2.toRaw()
+        wall2.physicsBody!.categoryBitMask               = ColliderType.Wall2.rawValue
         self.addChild(wall2)
         
         // PADDLE 1 SCORE LABEL
@@ -328,7 +328,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact!)  {
         
         //Increase horizontal speed when ball hits paddle
-        if contact.bodyA.categoryBitMask == ColliderType.Paddle.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+        if contact.bodyA.categoryBitMask == ColliderType.Paddle.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {
             
             if !ballIsResetting {
                 print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody!.velocity.dx))  --> ")
@@ -339,7 +339,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //Increase paddle2 score when ball hits wall1
-        if contact.bodyA.categoryBitMask == ColliderType.Wall1.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+        if contact.bodyA.categoryBitMask == ColliderType.Wall1.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {
             
             if !ballIsResetting {
                 ballIsResetting = true
@@ -351,7 +351,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //Increase paddle1 score when ball hits wall2
-        if contact.bodyA.categoryBitMask == ColliderType.Wall2.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+        if contact.bodyA.categoryBitMask == ColliderType.Wall2.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {
             if !ballIsResetting {
                 ballIsResetting = true
                 println("LOG | Ball hit wall2, increasing paddle 1 score: \(paddle1score) --> new score: \(paddle1score + 1)")
@@ -362,7 +362,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         // Increase ball.velocity.dx on wallbounce
-        if contact.bodyA.categoryBitMask == ColliderType.Leveledge.toRaw() && contact.bodyB.categoryBitMask == ColliderType.Ball.toRaw() {
+        if contact.bodyA.categoryBitMask == ColliderType.Leveledge.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {
 
             if !ballIsResetting {
                 print("LOG | Ball hit Leveledge, increasing vertical speed: \(Int(ball.physicsBody!.velocity.dy)) ")
@@ -488,7 +488,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let sequence = SKAction.sequence([part1, part2, part3, part4])
         
-        ball.physicsBody!.velocity = CGVector(0, 0)
+        ball.physicsBody!.velocity = CGVector(dx:0, dy:0)
         
         ball.runAction(sequence, completion: { () -> Void in
             // taking turns on getting the ball first

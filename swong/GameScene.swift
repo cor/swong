@@ -116,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle1.physicsBody!.linearDamping               = 0
         paddle1.physicsBody!.restitution                 = 1
         paddle1.physicsBody!.friction                    = 0
-        paddle1.physicsBody!.mass                        = 10000000000
+        paddle1.physicsBody!.mass                        = 10000000
         paddle1.physicsBody!.categoryBitMask             = ColliderType.Paddle.rawValue
         paddle1.physicsBody!.contactTestBitMask          = ColliderType.Ball.rawValue
         self.addChild(paddle1)
@@ -130,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         paddle2.physicsBody!.linearDamping               = 0
         paddle2.physicsBody!.restitution                 = 1
         paddle2.physicsBody!.friction                    = 0
-        paddle2.physicsBody!.mass                        = 10000000000
+        paddle2.physicsBody!.mass                        = 10000000
         paddle2.physicsBody!.categoryBitMask             = ColliderType.Paddle.rawValue
         paddle2.physicsBody!.contactTestBitMask          = ColliderType.Ball.rawValue
         self.addChild(paddle2)
@@ -291,9 +291,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
@@ -315,8 +313,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Move paddles when user moves touch
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
@@ -325,7 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginContact(contact: SKPhysicsContact!)  {
+    func didBeginContact(contact: SKPhysicsContact)  {
         
         //Increase horizontal speed when ball hits paddle
         if contact.bodyA.categoryBitMask == ColliderType.Paddle.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {

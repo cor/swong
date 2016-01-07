@@ -38,7 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let debugLabelVelocity                          = SKLabelNode(fontNamed: "Futura")
     let debugLabelOther                             = SKLabelNode(fontNamed: "Futura")
     let debugLabelRunning                           = SKLabelNode(fontNamed: "Futura")
-    let debugLabelsAreEnabled                       = false
+    let debugLabelsAreEnabled                       = true
     
     // speeds
     let minimumHorizontalVelocity: CGFloat          = 300.0
@@ -72,10 +72,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
+    
     //All configuration is done here (physics, colors, sizes etc)
     override func didMoveToView(view: SKView) {
         
-        println("LOG | Game booting up")
+        print("LOG | Game booting up")
         
         // SCENE (SELF)
         self.backgroundColor                            = SKColor(red: 0.31, green: 0.3, blue: 0.5, alpha: 1)
@@ -258,7 +259,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if paddle == 2 {
                 paddle2.position = CGPoint(x: paddleDistanceFromSide, y: y)
             } else {
-                println("ERR | Invalid parameter: paddle at movePaddle() call")
+                print("ERR | Invalid parameter: paddle at movePaddle() call")
             }
         }
         
@@ -291,7 +292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if gameIsRunning {
             // move paddles
             for touch: AnyObject in touches {
@@ -301,7 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for touch: AnyObject in touches  {
                 // check if the user presses play
                 if touch.locationInNode(self).x > ( self.frame.midX - 50 ) && touch.locationInNode(self).x < ( self.frame.midX + 50) {
-                    println("LOG | Start Game Area pressed, starting game")
+                    print("LOG | Start Game Area pressed, starting game")
                     resetGame()
                     gameIsRunning = true
                     self.addChild(ball)
@@ -313,7 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     //Move paddles when user moves touch
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
 
         if gameIsRunning {
             // move paddles
@@ -321,6 +322,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 movePaddleToPoint(touch.locationInNode(self))
             }
         }
+
     }
     
     func didBeginContact(contact: SKPhysicsContact)  {
@@ -332,7 +334,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 print("LOG | Ball hit paddle, increasing horizontal speed: \(Int(ball.physicsBody!.velocity.dx))  --> ")
                 ++paddleHitCount
                 ball.physicsBody!.velocity.dx *= horizontalVelocityMultiplier
-                println("new speed: \(Int(ball.physicsBody!.velocity.dx))")
+                print("new speed: \(Int(ball.physicsBody!.velocity.dx))")
             }
         }
         
@@ -341,7 +343,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if !ballIsResetting {
                 ballIsResetting = true
-                println("LOG | Ball hit wall1, increasing paddle 2 score: \(paddle2score)  --> new score: \(paddle2score + 1)")
+                print("LOG | Ball hit wall1, increasing paddle 2 score: \(paddle2score)  --> new score: \(paddle2score + 1)")
                 paddle2score++
                 paddle2scoreLabel.text = "\(paddle2score)"
                 resetBall()
@@ -352,7 +354,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == ColliderType.Wall2.rawValue && contact.bodyB.categoryBitMask == ColliderType.Ball.rawValue {
             if !ballIsResetting {
                 ballIsResetting = true
-                println("LOG | Ball hit wall2, increasing paddle 1 score: \(paddle1score) --> new score: \(paddle1score + 1)")
+                print("LOG | Ball hit wall2, increasing paddle 1 score: \(paddle1score) --> new score: \(paddle1score + 1)")
                 paddle1score++
                 paddle1scoreLabel.text = "\(paddle1score)"
                 resetBall()
@@ -371,7 +373,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ball.physicsBody!.velocity.dy *= verticalVelocityMultiplier
                 }
                 
-                println("--> new speed: \(Int(ball.physicsBody!.velocity.dy))")
+                print("--> new speed: \(Int(ball.physicsBody!.velocity.dy))")
             }
         }
         
@@ -381,7 +383,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // If a player has enough points, end the game.
         if paddle1score >= pointsNeededToWin && gameIsRunning {
-            println("LOG | paddle1score is \(paddle1score), he wins the game")
+            print("LOG | paddle1score is \(paddle1score), he wins the game")
             gameDidEnd(winner:1)
         } else if paddle2score >= pointsNeededToWin && gameIsRunning {
             gameDidEnd(winner: 2)
@@ -395,13 +397,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // If the ball isn't moving horizontal at all, increase speed by a fifth of the minimumspeed
                 if !((ball.physicsBody!.velocity.dx > +(minimumHorizontalVelocity / 10)) || (ball.physicsBody!.velocity.dx < -(minimumHorizontalVelocity / 10))) {
-                    println("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
+                    print("LOG | Ball moving WAY TOO SLOW horizontally -> adding one fifth of minimumHorizontalVelocity")
                     ball.physicsBody!.velocity.dy += (ball.position.x > self.frame.midX ? -(minimumHorizontalVelocity / 5) : +(minimumHorizontalVelocity / 5))
                 }
                 
                 print("LOG | ball moving too slow horizontally: \(Int(ball.physicsBody!.velocity.dx)), increasing speed --> ")
                 ball.physicsBody!.velocity.dx *= horizontalTooSlowMultiplier
-                println("new speed: \(Int(ball.physicsBody!.velocity.dx))")
+                print("new speed: \(Int(ball.physicsBody!.velocity.dx))")
             }
             
             // If the ball is moving too slow vertically, increase speed
@@ -409,13 +411,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 // If the ball isn't moving vertical at all, increase speed by a fifth of the minimumVerticalVelocity
                 if !((ball.physicsBody!.velocity.dy > +(minimumVerticalVelocity / 10)) || (ball.physicsBody!.velocity.dy < -(minimumVerticalVelocity / 10))) {
-                    println("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
+                    print("LOG | Ball moving WAY TOO SLOW vertically -> adding a fifth of minimumVerticalVelocity")
                     ball.physicsBody!.velocity.dy += (ball.position.y > self.frame.midY ? -(minimumVerticalVelocity / 5) : +(minimumVerticalVelocity / 5))
                 }
                 
                 print("LOG | ball moving too slow vertically: \(Int(ball.physicsBody!.velocity.dy)), increasing speed --> ")
                 ball.physicsBody!.velocity.dy *= verticalTooSlowMultiplier
-                println("new speed: \(Int(ball.physicsBody!.velocity.dy))")
+                print("new speed: \(Int(ball.physicsBody!.velocity.dy))")
             }
         }
         
@@ -434,8 +436,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func gameDidEnd(#winner: Int) {
-        println("LOG | gameDidEnd() now running")
+    func gameDidEnd(winner winner: Int) {
+        print("LOG | gameDidEnd() now running")
         if gameIsRunning {
             gameIsRunning = false
             ball.removeFromParent()
@@ -458,19 +460,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func newBallVector(var forPlayer player: Int) -> CGVector {
         
         if !(player == 1 || player == 2) {
-            println("ERR | Invalid player argument at newBallVector() --> using player 1 instead")
+            print("ERR | Invalid player argument at newBallVector() --> using player 1 instead")
             player = 1
         }
         
-        var dx: CGFloat = possibleStartDx[Int(arc4random_uniform(UInt32(possibleStartDx.count)))] * (player == 1 ? +1 : -1)
-        var dy: CGFloat = possibleStartDy[Int(arc4random_uniform(UInt32(possibleStartDy.count)))]
+        let dx: CGFloat = possibleStartDx[Int(arc4random_uniform(UInt32(possibleStartDx.count)))] * (player == 1 ? +1 : -1)
+        let dy: CGFloat = possibleStartDy[Int(arc4random_uniform(UInt32(possibleStartDy.count)))]
         
-        println("LOG | new random ball vector --> dx: \(dx), dy: \(dy)")
+        print("LOG | new random ball vector --> dx: \(dx), dy: \(dy)")
         return CGVector(dx: dx, dy: dy)
     }
     
     func resetBall() {
-        println("LOG | resetting ball")
+        print("LOG | resetting ball")
         //run reset action
         
         
@@ -503,7 +505,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func resetGame() {
-        println("LOG | game resetting")
+        print("LOG | game resetting")
         resetBall()
         
         paddle1score = 0
